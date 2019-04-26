@@ -27,9 +27,9 @@ class Postit(JsonModel):
     #dt = db.Column(db.DateTime, default = datetime.datetime.utcnow())
 
 @app.route("/retro/board/<int:board_id>", methods=["GET", "POST", "DELETE"])
-def board():
+def board(board_id):
     if request.method == "GET":
-        return make_response(jsonify({'result': 'Some text here'}), 200)
+        return make_response(jsonify({'result': 'Some text here' + str(board_id)}), 200)
 
 @app.route("/retro", methods=["GET"])
 def index():
