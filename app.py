@@ -1,3 +1,4 @@
+from flask_app import app
 from flask import Flask, render_template, request, url_for, redirect, make_response, jsonify
 import json, datetime
 #from flask_sqlalchemy import SQLAlchemy
