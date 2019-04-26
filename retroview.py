@@ -35,5 +35,5 @@ def board():
 def index():
     if request.method == "GET":
         counter = counter + 1
-        return make_response(jsonify({'result': 'Some text here' + counter}), 200)
+        return make_response(jsonify({'result': 'Some text here' + str(counter)}), 200)
         #return render_template("index.html")
