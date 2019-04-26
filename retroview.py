@@ -5,12 +5,16 @@ import json, datetime
 app = Flask(__name__)
 
 app.config["DEBUG"] = True
+counter = 0
 
 #db = SQLAlchemy(app)
 
 class JsonModel(object):
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+class Board(JsonModel):
+    id = 123
 
 class Postit(JsonModel):
     id = 123
@@ -22,22 +26,14 @@ class Postit(JsonModel):
     #json = db.Column(db.String(8192))
     #dt = db.Column(db.DateTime, default = datetime.datetime.utcnow())
 
-@app.route("/status", methods=["GET"])
-def status():
+@app.route("/retro/board/<int:board_id>", methods=["GET", "POST", "DELETE"])
+def board():
     if request.method == "GET":
         return make_response(jsonify({'result': 'Some text here'}), 200)
 
-@app.route("/", methods=["GET"])
+@app.route("/retro", methods=["GET"])
 def index():
     if request.method == "GET":
-        return render_template("noteboard.html")
-
-@app.route('/notes', methods=["GET", "POST", "DELETE"])
-def notes():
-    print("A call")
-    print(str(request.method))
-
-    return make_response(jsonify({'scope': 'test'}), 200)
-    #
-    #
-    #if request.method == "POST":
+        counter = counter + 1
+        return make_response(jsonify({'result': 'Some text here' + counter}), 200)
+        #return render_template("index.html")
