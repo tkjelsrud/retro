@@ -5,7 +5,7 @@ import json, datetime
 app = Flask(__name__)
 
 app.config["DEBUG"] = True
-app.config["TEST123"] = 0
+#app.config["TEST123"] = 0
 
 #db = SQLAlchemy(app)
 
@@ -32,8 +32,10 @@ def board(board_id):
         return make_response(jsonify({'result': 'Some text here' + str(board_id)}), 200)
 
 @app.route("/retro", methods=["GET"])
+@app.route("/retro/", methods=["GET"])
 def index():
     if request.method == "GET":
-        app.config["TEST123"] = app.config["TEST123"] + 1
+        #app.config["TEST123"] = app.config["TEST123"] + 1
         return make_response(jsonify({'result': 'Some text here' + str(app.config["TEST123"])}), 200)
-        #return render_template("index.html")
+
+#return render_template("index.html")
