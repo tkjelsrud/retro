@@ -39,10 +39,9 @@ class TestRetro(unittest.TestCase):
         app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
         db = SQLAlchemy(app)
-        db.init_app(app)
-
-        o = DbObject.query.get(1)
-        print(o)
+        with app.app_context():
+            o = DbObject.query.get(1)
+            print(o)
 
     def test_isupper(self):
         self.assertTrue('FOO'.isupper())
