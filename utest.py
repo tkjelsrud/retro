@@ -19,13 +19,14 @@ class TestRetro(unittest.TestCase):
         from flask_sqlalchemy import SQLAlchemy
 
         app = Flask(__name__)
-
         app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
 
-        o = DbObject(type="Test", json="{}")
+        db = SQLAlchemy(app)
 
-        #db.session.add(note)
-        #db.session.commit()
+        o = DbObject(type="Test", json="{}")
+        db.session.add(o)
+        db.session.commit()
+        print(o.id)
 
     def test_isupper(self):
         self.assertTrue('FOO'.isupper())
