@@ -41,7 +41,8 @@ class TestRetro(unittest.TestCase):
         db = SQLAlchemy(app)
         db.init_app(app)
 
-        o = DbObject.query.filter_by(id=1).one()
+        o = DbObject.query.get(1)
+        print(o)
 
     def test_isupper(self):
         self.assertTrue('FOO'.isupper())
