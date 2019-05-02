@@ -30,9 +30,22 @@ class TestRetro(unittest.TestCase):
 
         self.assertTrue(o.id > 0)
 
-        o = DbObject.query.filter_by(id=o.id).one()
+    def testLoadObject(self):
+        from flask import Flask
+        from DbObject import DbObject
+        from DbSetup import DbSetup
 
-        self.assertTrue(o.type == "Test")
+        from flask_sqlalchemy import SQLAlchemy
+
+        app = Flask(__name__)
+        app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
+        app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+        db = SQLAlchemy(app)
+
+        o = DbObject.query.filter_by(id=1).one()
+
+        #self.assertTrue(o.type == "Test")
 
 
 
