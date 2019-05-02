@@ -8,8 +8,6 @@ class TestRetro(unittest.TestCase):
             None
         from DbSetup import DbSetup
         self.assertTrue(DbSetup.getUri() is not None)
-        self.assertTrue(DbSetup.getUri() is not "")
-        #self.assertTrue
 
     def testCreateObject(self):
         from flask import Flask
@@ -34,20 +32,17 @@ class TestRetro(unittest.TestCase):
         from flask import Flask
         from DbObject import DbObject
         from DbSetup import DbSetup
-
         from flask_sqlalchemy import SQLAlchemy
 
-        app = Flask(__name__)
-        app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
-        app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+        #if app and db
+        #app = Flask(__name__)
+        #app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
+        #app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-        db = SQLAlchemy(app)
+        #db = SQLAlchemy(app)
+        #db.init_app(app)
 
         o = DbObject.query.filter_by(id=1).one()
-
-        #self.assertTrue(o.type == "Test")
-
-
 
     def test_isupper(self):
         self.assertTrue('FOO'.isupper())
