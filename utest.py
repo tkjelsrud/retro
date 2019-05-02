@@ -34,13 +34,12 @@ class TestRetro(unittest.TestCase):
         from DbSetup import DbSetup
         from flask_sqlalchemy import SQLAlchemy
 
-        #if app and db
-        #app = Flask(__name__)
-        #app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
-        #app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+        app = Flask(__name__)
+        app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
+        app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-        #db = SQLAlchemy(app)
-        #db.init_app(app)
+        db = SQLAlchemy(app)
+        db.init_app(app)
 
         o = DbObject.query.filter_by(id=1).one()
 
