@@ -5,7 +5,7 @@ class JsonModel(object):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 # Generic DB storable object for different app purposes (dynamic variables)
-class DbObject(JsonModel):
+class DbObject(db, JsonModel):
     __tablename__ = "jsonobjects"
     #
     #
