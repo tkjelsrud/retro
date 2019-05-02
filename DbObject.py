@@ -1,11 +1,12 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 class JsonModel(object):
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 # Generic DB storable object for different app purposes (dynamic variables)
-class DbObject(db, JsonModel):
+class DbObject(db.Model, JsonModel):
     __tablename__ = "jsonobjects"
     #
     #
