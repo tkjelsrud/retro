@@ -10,14 +10,14 @@ class TestRetroIntegration(unittest.TestCase):
 
     def testLoadObject(self):
         #
-        with request.urlopen(baseURL + "/board/12") as response:
+        with request.urlopen(baseURL + "/node/12") as response:
             res = response.read()
             print(res)
 
     def testLoadObjectList(self):
         #
-        with request.urlopen(baseURL + "/board/12/notes") as response:
+        with request.urlopen(baseURL + "/node/12/children") as response:
             res = response.read()
             print(res)
 
-    #def 
+    #def

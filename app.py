@@ -5,57 +5,75 @@ from DbObject import DbObject
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-
 app.config["DEBUG"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 db = SQLAlchemy(app)
 
-@app.route("/retro/board/<int:board_id>", methods=["GET", "POST", "DELETE"])
-def board(board_id):
-    if request.method == "POST":
-        b = DbObject(type="board", json="{'title':'Test Board'}")
-        db.session.add(b)
-        db.session.commit()
+appRoot = "/retro"
 
-        return make_response(jsonify({'result': 200, 'id': b.id, 'json': b.json}), 200)
+
+# new layout
+# node = Load
+# LoadChildren
+# Store
+
+# Always returning OK 200 to avoid default sever error pages
+
+@app.route(appRoot + "/node/<int:n_id>", methods=["GET", "POST", "DELETE"])
+def node(n_id):
+    if request.method == "POST":
+        # We don't care about n_id, probably should be posted on n_id=0
+        try:
+            pid = int(request.form['pid'])
+            type = request.form['type']
+            json = request.form['json']
+
+            n = DbObject(pid=pid, type=type, json=json)
+            db.session.add(b)
+            db.session.commit()
+
+            return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json}), 200)
+        except:
+            return make_response(jsonify({'result': 500, 'message': 'Missing one of required input pid, type, json'}), 200)
 
     if request.method == "GET":
         # Load object which is the board
         # TODO: create a more private way to separate boards (need key to get it)
-        b = DbObject.query.filter_by(id=board_id, type="board").one()
+        #request.args.get("type")
+        try:
+            b = DbObject.query.filter_by(id=n_id).one()
 
-        if b:
-            return make_response(jsonify({'result': 200, 'id': b.id, 'json':b.json}), 200)
-        else:
-            make_response(jsonify({'result': 404, 'id': board_id}), 200)
-            # return
-        return make_response(jsonify({'result': 500, 'id': board_id}), 200)
+            if b:
+                return make_response(jsonify({'result': 200, 'id': b.id, 'json':b.json}), 200)
 
-@app.route("/retro/board/<int:board_id>/notes", methods=["GET"])
-def boardNotes(board_id):
+            return make_response(jsonify({'result': 404, 'id': board_id}), 200)
+        except:
+            return make_response(jsonify({'result': 500, 'message': 'Unable to get node'}), 200)
+
+    if request.method == "DELETE":
+        try:
+            db.session.query(DbObject).filter(DbObject.id == n_id).delete()
+            db.session.commit()
+
+            return make_response(jsonify({'result': 200, 'id': n_id}), 200)
+        except:
+            return make_response(jsonify({'result': 500, 'message': 'Unable to delete node'}), 200)
+
+@app.route(appRoot + "/node/<int:n_id>/children", methods=["GET"])
+def children(n_id):
     if request.method == "GET":
-        bList = DbObject.query.filter_by(pid=board_id)
+        bList = DbObject.query.filter_by(pid=n_id)
 
         if bList:
             dList = []
             for b in bList:
-                dList.append({'id': b.id, 'json':b.json})
+                dList.append({'id': b.id, 'type': b.type, 'json':b.json})
 
             return make_response(jsonify({'result': 200, 'id': board_id, 'json': dList}), 200)
 
         return make_response(jsonify({'result': 500, 'id': board_id}), 200)
-
-@app.route("/retro/note/<int:note_id>", methods=["GET", "POST", "DELETE"])
-def note(note_id):
-    if request.method == "POST":
-        pid = int(request.form['pid'])
-
-        n = DbObject(pid=pid, type="note", json="{'title':'Test note'}")
-        db.session.add(b)
-        db.session.commit()
-
-        return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json}), 200)
 
 @app.route("/retro", methods=["GET"])
 @app.route("/retro/", methods=["GET"])
