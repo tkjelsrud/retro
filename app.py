@@ -58,16 +58,21 @@ def node(n_id):
 @app.route(appRoot + "/node/<int:n_id>/children", methods=["GET"])
 def children(n_id):
     if request.method == "GET":
-        cList = DbObject.query.filter_by(pid=n_id)
+        try:
+            cList = DbObject.query.filter_by(pid=n_id)
 
-        if cList:
-            dList = []
-            for b in cList:
-                dList.append({'id': b.id, 'type': b.type, 'json':b.json})
+            if cList:
+                dList = []
+                for b in cList:
+                    dList.append({'id': b.id, 'type': b.type, 'json':b.json})
 
-            return make_response(jsonify({'result': 200, 'id': n_id, 'json': dList}), 200)
+                return make_response(jsonify({'result': 200, 'id': n_id, 'json': dList}), 200)
 
-        return make_response(jsonify({'result': 500, 'id': n_id}), 200)
+            return make_response(jsonify({'result': 500, 'id': n_id}), 200)
+
+        except Exception as error:
+            return make_response(jsonify({'result': 500, 'message': 'Error in loading children. ' + str(error)}), 200)
+
 
 @app.route("/retro", methods=["GET"])
 @app.route("/retro/", methods=["GET"])
