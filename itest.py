@@ -10,8 +10,9 @@ class TestRetroIntegration(unittest.TestCase):
     def testCreateObject(self):
         data = parse.urlencode({'type':'board', 'json': '{}'}).encode()
         req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
-        resp = request.urlopen(req)
-        print(resp)
+        response = request.urlopen(req)
+        res = response.read()
+        print(res)
 
     def testLoadObject(self):
         #
