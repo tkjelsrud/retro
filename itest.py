@@ -77,6 +77,10 @@ class TestRetroIntegration(unittest.TestCase):
 
                 self.assertTrue(isinstance(js, list))
                 self.assertTrue(len(js) == 1)
+
+                self.assertTrue(js[0]['pid'] == self.testId)
+
+
         except AssertionError:
             pass
 
