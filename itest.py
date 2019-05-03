@@ -9,7 +9,7 @@ baseURL = "http://notoms.pythonanywhere.com/retro"
 class TestRetroIntegration(unittest.TestCase):
     testId = 0
 
-    def testCreateObject(self):
+    def test_a_CreateObject(self):
         try:
             print("1")
             data = parse.urlencode({'type':'board', 'json': '{}'}).encode()
@@ -30,7 +30,7 @@ class TestRetroIntegration(unittest.TestCase):
         except Exception as error:
                 assert False, "Integration test failed with exception " + str(error)
 
-    def testLoadObject(self):
+    def test_b_LoadObject(self):
         try:
             print("2")
             with request.urlopen(baseURL + "/node/" + str(self.testId)) as response:
@@ -43,7 +43,7 @@ class TestRetroIntegration(unittest.TestCase):
         except Exception as error:
             assert False, "Integration test failed with exception " + str(error)
 
-    def testCreateChild(self):
+    def test_c_CreateChild(self):
         try:
             print("3")
             data = parse.urlencode({'pid': self.testId, 'type':'note', 'json': '{}'}).encode()
@@ -64,7 +64,7 @@ class TestRetroIntegration(unittest.TestCase):
         except Exception as error:
                 assert False, "Integration test failed with exception " + str(error)
 
-    def testLoadObjectList(self):
+    def test_d_LoadObjectList(self):
         try:
             print("4")
             with request.urlopen(baseURL + "/node/" + str(self.testId) + "/children") as response:
