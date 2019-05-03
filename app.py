@@ -38,7 +38,11 @@ def boardNotes(board_id):
         bList = DbObject.query.filter_by(pid=board_id)
 
         if bList:
-            return make_response(jsonify({'result': 200, 'id': board_id, 'json':bList}), 200)
+            dList = []
+            for b in bList:
+                dList.add(jsonify({'id': b.id, 'json':b.json}))
+
+            return make_response(jsonify({'result': 200, 'id': board_id, 'json': json.dumps(dList)}), 200)
 
         return make_response(jsonify({'result': 500, 'id': board_id}), 200)
 
