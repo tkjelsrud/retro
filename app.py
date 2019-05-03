@@ -38,7 +38,9 @@ def boardNotes(board_id):
         bList = DbObject.query.filter_by(pid=board_id)
 
         if bList:
-            return make_response(jsonify({'result': 200, 'id': b.id, 'json':bList}), 200)
+            return make_response(jsonify({'result': 200, 'id': board_id, 'json':bList}), 200)
+
+        return make_response(jsonify({'result': 500, 'id': board_id}), 200)
 
 @app.route("/retro", methods=["GET"])
 @app.route("/retro/", methods=["GET"])
