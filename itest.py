@@ -1,5 +1,6 @@
 import unittest
-import urllib.request
+from urllib import request, parse
+#data = parse.urlencode(<your data dict>).encode()
 
 # Integration test cases
 
@@ -9,12 +10,14 @@ class TestRetroIntegration(unittest.TestCase):
 
     def testLoadObject(self):
         #
-        with urllib.request.urlopen(baseURL + "/board/12") as response:
+        with request.urlopen(baseURL + "/board/12") as response:
             res = response.read()
             print(res)
 
     def testLoadObjectList(self):
         #
-        with urllib.request.urlopen(baseURL + "/board/12/notes") as response:
+        with request.urlopen(baseURL + "/board/12/notes") as response:
             res = response.read()
             print(res)
+
+    #def 

@@ -46,6 +46,17 @@ def boardNotes(board_id):
 
         return make_response(jsonify({'result': 500, 'id': board_id}), 200)
 
+@app.route("/retro/note/<int:note_id>", methods=["GET", "POST", "DELETE"])
+def note(note_id):
+    if request.method == "POST":
+        pid = int(request.form['pid'])
+
+        n = DbObject(pid=pid, type="note", json="{'title':'Test note'}")
+        db.session.add(b)
+        db.session.commit()
+
+        return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json}), 200)
+
 @app.route("/retro", methods=["GET"])
 @app.route("/retro/", methods=["GET"])
 def index():
