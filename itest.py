@@ -7,11 +7,10 @@ import json
 baseURL = "http://notoms.pythonanywhere.com/retro"
 
 class TestRetroIntegration(unittest.TestCase):
-    testId = 0
+    testId = -1
 
     def test_a_CreateObject(self):
         try:
-            print("1")
             data = parse.urlencode({'type':'board', 'json': '{}'}).encode()
             req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
             response = request.urlopen(req)
@@ -32,7 +31,6 @@ class TestRetroIntegration(unittest.TestCase):
 
     def test_b_LoadObject(self):
         try:
-            print("2")
             with request.urlopen(baseURL + "/node/" + str(self.testId)) as response:
                 res = response.read()
                 js = json.loads(res)
@@ -45,7 +43,6 @@ class TestRetroIntegration(unittest.TestCase):
 
     def test_c_CreateChild(self):
         try:
-            print("3")
             data = parse.urlencode({'pid': self.testId, 'type':'note', 'json': '{}'}).encode()
             req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
             response = request.urlopen(req)
@@ -66,15 +63,14 @@ class TestRetroIntegration(unittest.TestCase):
 
     def test_d_LoadObjectList(self):
         try:
-            print("4")
             with request.urlopen(baseURL + "/node/" + str(self.testId) + "/children") as response:
                 res = response.read()
                 js = json.loads(res)
 
                 self.assertTrue(isinstance(js, list))
                 self.assertTrue(len(js) == 1)
-                self.assertTrue(js[0]['pid'] > 0)
-                self.assertTrue(js[0]['pid'] == self.testId)
+                self.assertTrue(int(js[0]['pid']) > 0)
+                self.assertTrue(int(js[0]['pid']) == self.testId)
 
         except AssertionError:
             pass
