@@ -32,8 +32,8 @@ def node(n_id):
             db.session.commit()
 
             return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json}), 200)
-        except:
-            return make_response(jsonify({'result': 500, 'message': 'Missing one of required input pid, type, json'}), 200)
+        except Exception as error:
+            return make_response(jsonify({'result': 500, 'message': 'Error or missing one of required input pid, type, json. ' + str(error)}), 200)
 
     if request.method == "GET":
         try:
