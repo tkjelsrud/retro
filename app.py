@@ -28,7 +28,7 @@ def node(n_id):
                 pid = int(request.form['pid'])
 
             n = DbObject(pid=pid, type=type, json=json)
-            db.session.add(b)
+            db.session.add(n)
             db.session.commit()
 
             return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json}), 200)
@@ -37,10 +37,10 @@ def node(n_id):
 
     if request.method == "GET":
         try:
-            b = DbObject.query.filter_by(id=n_id).one()
+            n = DbObject.query.filter_by(id=n_id).one()
 
-            if b:
-                return make_response(jsonify({'result': 200, 'id': b.id, 'json':b.json}), 200)
+            if n:
+                return make_response(jsonify({'result': 200, 'id': n.id, 'json':n.json}), 200)
 
             return make_response(jsonify({'result': 404, 'id': n_id}), 200)
         except:
@@ -58,11 +58,11 @@ def node(n_id):
 @app.route(appRoot + "/node/<int:n_id>/children", methods=["GET"])
 def children(n_id):
     if request.method == "GET":
-        bList = DbObject.query.filter_by(pid=n_id)
+        cList = DbObject.query.filter_by(pid=n_id)
 
-        if bList:
+        if cList:
             dList = []
-            for b in bList:
+            for b in cList:
                 dList.append({'id': b.id, 'type': b.type, 'json':b.json})
 
             return make_response(jsonify({'result': 200, 'id': n_id, 'json': dList}), 200)
