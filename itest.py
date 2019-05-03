@@ -19,10 +19,10 @@ class TestRetroIntegration(unittest.TestCase):
 
             js = json.loads(res)
 
-            self.assertTrue(js.result == "200")
-            self.assertTrue(js.id > 0)
+            self.assertTrue(js['result'] == "200")
+            self.assertTrue(int(js['id']) > 0)
 
-            self.testId = js.id
+            self.testId = int(js['id'])
 
         except Exception as error:
                 assert False, "Integration test failed with exception " + str(error)
@@ -33,6 +33,7 @@ class TestRetroIntegration(unittest.TestCase):
             with request.urlopen(baseURL + "/node/" + str(self.testId)) as response:
                 res = response.read()
                 js = json.loads(res)
+
         except Exception as error:
             assert False, "Integration test failed with exception " + str(error)
 
