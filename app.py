@@ -20,9 +20,12 @@ def node(n_id):
     if request.method == "POST":
         # We don't care about n_id, probably should be posted on n_id=0
         try:
-            pid = int(request.form['pid'])
+            pid = None
             type = request.form['type']
             json = request.form['json']
+
+            if 'pid' in request.form:
+                pid = int(request.form['pid'])
 
             n = DbObject(pid=pid, type=type, json=json)
             db.session.add(b)
