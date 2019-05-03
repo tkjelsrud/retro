@@ -1,8 +1,7 @@
-from flask_app import app
 from flask import Flask, render_template, request, url_for, redirect, make_response, jsonify
 import json, datetime
-import DbSetup
-import DbObject
+from DbSetup import DbSetup
+from DbObject import DbObject
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -17,7 +16,7 @@ def board(board_id):
     if request.method == "POST":
         # Create a board
         # Json properties must be included
-        
+
         b = DbObject(type="board", json="{'title':'Test Board'}")
         db.session.add(b)
         db.session.commit()

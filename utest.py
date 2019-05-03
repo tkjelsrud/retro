@@ -41,11 +41,8 @@ class TestRetro(unittest.TestCase):
         db = SQLAlchemy(app)
         with app.app_context():
             o = DbObject.query.get(1)
-            print(o)
+            self.assertTrue(o.type == "Test")
 
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
 
 if __name__ == '__main__':
     unittest.main()
