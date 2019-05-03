@@ -1,6 +1,6 @@
-function openBoard() {
+function openBoard(id) {
   $.ajax({
-        url: '/retro/board/?board_id=' + 1,
+        url: '/retro/board/' + id,
         dataType: 'json',
         cache: false
     }).done(function(data){
