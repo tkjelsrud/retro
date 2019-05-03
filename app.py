@@ -12,7 +12,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 @app.route("/retro/board/", methods=["POST"])
-def board():
+def boardpost():
     if request.method == "POST":
         b = DbObject(type="board", json="{'title':'Test Board'}")
         db.session.add(b)
