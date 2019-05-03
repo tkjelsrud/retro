@@ -43,6 +43,20 @@ class TestRetro(unittest.TestCase):
             o = DbObject.query.get(1)
             self.assertTrue(o.type == "Test")
 
+    def testLoadObjectList(self):
+        from flask import Flask
+        from DbObject import DbObject
+        from DbSetup import DbSetup
+        from flask_sqlalchemy import SQLAlchemy
+
+        app = Flask(__name__)
+        app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
+        app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+        db = SQLAlchemy(app)
+        with app.app_context():
+            oList = DbObject.query.filter_by(pid=12)
+            self.assertTrue(len(oList) > 0)
 
 if __name__ == '__main__':
     unittest.main()
