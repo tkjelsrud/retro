@@ -26,7 +26,7 @@ def board(board_id):
     if request.method == "GET":
         # Load object which is the board
         # TODO: create a more private way to separate boards (need key to get it)
-        b = DbObject.query.filter(id=board_id, type="board").one()
+        b = DbObject.query.filter_by(id=board_id, type="board").one()
 
         if b:
             print("Found board " + b)
@@ -43,6 +43,6 @@ def board(board_id):
 def index():
     if request.method == "GET":
         #app.config["TEST123"] = app.config["TEST123"] + 1
-        return make_response(jsonify({'result': 'Some text here' + str(app.config["TEST123"])}), 200)
+        #return make_response(jsonify({'result': 'Some text here' + str(app.config["TEST123"])}), 200)
 
-#return render_template("index.html")
+        return render_template("index.html")
