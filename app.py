@@ -42,7 +42,7 @@ def boardNotes(board_id):
             for b in bList:
                 dList.append({'id': b.id, 'json':b.json})
 
-            return make_response(jsonify({'result': 200, 'id': board_id, 'json': json.dumps(dList)}), 200)
+            return make_response(jsonify({'result': 200, 'id': board_id, 'json': dList}), 200)
 
         return make_response(jsonify({'result': 500, 'id': board_id}), 200)
 
