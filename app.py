@@ -13,12 +13,6 @@ db = SQLAlchemy(app)
 
 appRoot = "/retro"
 
-
-# new layout
-# node = Load
-# LoadChildren
-# Store
-
 # Always returning OK 200 to avoid default sever error pages
 
 @app.route(appRoot + "/node/<int:n_id>", methods=["GET", "POST", "DELETE"])
@@ -39,9 +33,6 @@ def node(n_id):
             return make_response(jsonify({'result': 500, 'message': 'Missing one of required input pid, type, json'}), 200)
 
     if request.method == "GET":
-        # Load object which is the board
-        # TODO: create a more private way to separate boards (need key to get it)
-        #request.args.get("type")
         try:
             b = DbObject.query.filter_by(id=n_id).one()
 
