@@ -56,7 +56,7 @@ class TestRetro(unittest.TestCase):
         db = SQLAlchemy(app)
         with app.app_context():
             oList = DbObject.query.filter_by(pid=12)
-            self.assertTrue(len(oList) > 0)
+            self.assertTrue(oList.count() > 0)
 
 if __name__ == '__main__':
     unittest.main()
