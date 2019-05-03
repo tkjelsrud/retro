@@ -73,7 +73,6 @@ def children(n_id):
         except Exception as error:
             return make_response(jsonify({'result': 500, 'message': 'Error in loading children. ' + str(error)}), 200)
 
-
 @app.route("/retro", methods=["GET"])
 @app.route("/retro/", methods=["GET"])
 def index():
