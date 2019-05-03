@@ -46,10 +46,32 @@ class TestRetroIntegration(unittest.TestCase):
             assert False, "Integration test failed with exception " + str(error)
 
 
+    def testCreateChild(self):
+        try:
+            data = parse.urlencode({'pid': self.testId, 'type':'board', 'json': '{}'}).encode()
+            req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
+            response = request.urlopen(req)
+            res = response.read()
+
+            js = json.loads(res)
+
+            print(js)
+
+            self.assertTrue(js['result'] == "200")
+            self.assertTrue(int(js['id']) > 0)
+
+            self.testId = int(js['id'])
+
+        except AssertionError:
+            pass
+
+        except Exception as error:
+                assert False, "Integration test failed with exception " + str(error)
+
 
     def testLoadObjectList(self):
         #
-        with request.urlopen(baseURL + "/node/12/children") as response:
+        with request.urlopen(baseURL + "/node/" + str(self.testId) + "/children") as response:
             res = response.read()
             print(res)
 
