@@ -48,7 +48,7 @@ def node(n_id):
             if b:
                 return make_response(jsonify({'result': 200, 'id': b.id, 'json':b.json}), 200)
 
-            return make_response(jsonify({'result': 404, 'id': board_id}), 200)
+            return make_response(jsonify({'result': 404, 'id': n_id}), 200)
         except:
             return make_response(jsonify({'result': 500, 'message': 'Unable to get node'}), 200)
 
@@ -71,9 +71,9 @@ def children(n_id):
             for b in bList:
                 dList.append({'id': b.id, 'type': b.type, 'json':b.json})
 
-            return make_response(jsonify({'result': 200, 'id': board_id, 'json': dList}), 200)
+            return make_response(jsonify({'result': 200, 'id': n_id, 'json': dList}), 200)
 
-        return make_response(jsonify({'result': 500, 'id': board_id}), 200)
+        return make_response(jsonify({'result': 500, 'id': n_id}), 200)
 
 @app.route("/retro", methods=["GET"])
 @app.route("/retro/", methods=["GET"])
