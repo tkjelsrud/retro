@@ -70,9 +70,15 @@ class TestRetroIntegration(unittest.TestCase):
 
 
     def testLoadObjectList(self):
-        #
-        with request.urlopen(baseURL + "/node/" + str(self.testId) + "/children") as response:
-            res = response.read()
-            print(res)
+        try:
+            with request.urlopen(baseURL + "/node/" + str(self.testId) + "/children") as response:
+                res = response.read()
+                js = json.loads(res)
 
-    #def
+                self.assertTrue(isinstance(js, list))
+                self.assertTrue(len(js) == 1)
+        except AssertionError:
+            pass
+
+        except Exception as error:
+                assert False, "Integration test failed with exception " + str(error)
