@@ -34,14 +34,18 @@ def node(n_id):
 
             db.session.add(n)
             db.session.commit()
+            db.session.close()
 
             return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json, 'skey':n.skey, 'ts': n.ts}), 200)
         except Exception as error:
+            db.session.rollback()
+            db.session.close()
             return make_response(jsonify({'result': 500, 'message': 'Error or missing one of required input pid, type, json. ' + str(error)}), 200)
 
     if request.method == "GET":
         try:
             n = DbObject.query.filter_by(id=n_id).one()
+            db.session.close()
 
             if requireKey:
                 if 's' in request.args and request.args['s'] == n.skey:
@@ -53,23 +57,29 @@ def node(n_id):
                 return make_response(jsonify({'result': 200, 'id': n.id, 'json':n.json, 'skey':n.skey, 'ts': n.ts}), 200)
 
             return make_response(jsonify({'result': 404, 'id': n_id}), 200)
-        except:
-            return make_response(jsonify({'result': 500, 'message': 'Unable to get node'}), 200)
+        except Exception as error:
+            db.session.rollback()
+            db.session.close()
+            return make_response(jsonify({'result': 500, 'message': 'Unable to get node ' + str(error)}), 200)
 
     if request.method == "DELETE":
         try:
             db.session.query(DbObject).filter(DbObject.id == n_id).delete()
             db.session.commit()
+            db.session.close()
 
             return make_response(jsonify({'result': 200, 'id': n_id}), 200)
-        except:
-            return make_response(jsonify({'result': 500, 'message': 'Unable to delete node'}), 200)
+        except Exception as error:
+            db.session.rollback()
+            db.session.close()
+            return make_response(jsonify({'result': 500, 'message': 'Unable to delete node' + str(error)}), 200)
 
 @app.route(appRoot + "/node/<int:n_id>/children", methods=["GET"])
 def children(n_id):
     if request.method == "GET":
         try:
             cList = DbObject.query.filter_by(pid=n_id)
+            db.session.close()
 
             if cList:
                 dList = []
@@ -81,6 +91,8 @@ def children(n_id):
             return make_response(jsonify({'result': 500, 'id': n_id}), 200)
 
         except Exception as error:
+            db.session.rollback()
+            db.session.close()
             return make_response(jsonify({'result': 500, 'message': 'Error in loading children. ' + str(error)}), 200)
 
 @app.route("/retro", methods=["GET"])
