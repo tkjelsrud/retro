@@ -9,7 +9,8 @@ baseURL = "http://notoms.pythonanywhere.com/retro"
 class TestRetroIntegration(unittest.TestCase):
     def test_CreateAndLoadObject(self):
         # Create
-
+        testId = 0
+        
         try:
             data = parse.urlencode({'type':'board', 'json': '{}'}).encode()
             req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
