@@ -21,6 +21,7 @@ class TestRetroIntegration(unittest.TestCase):
             self.assertTrue(int(js['id']) > 0)
 
             testId = int(js['id'])
+            print("Created " + str(testId))
 
         except AssertionError:
             pass
@@ -52,7 +53,7 @@ class TestRetroIntegration(unittest.TestCase):
             self.assertTrue(js['result'] == "200")
             self.assertTrue(int(js['id']) > 0)
 
-            self.testId = int(js['id'])
+            testId = int(js['id'])
 
         except AssertionError:
             pass
