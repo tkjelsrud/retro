@@ -5,7 +5,7 @@ import json
 # Integration test cases
 
 baseURL = "http://notoms.pythonanywhere.com/retro"
-testId = -1
+testId = 0
 
 class TestRetroIntegration(unittest.TestCase):
     def test_a_CreateObject(self):
@@ -31,7 +31,7 @@ class TestRetroIntegration(unittest.TestCase):
 
     def test_b_LoadObject(self):
         try:
-            with request.urlopen(baseURL + "/node/" + str(testId)) as response:
+            with request.urlopen(baseURL + "/node/" + str(testId) + "?s=null") as response:
                 res = response.read()
                 js = json.loads(res)
 

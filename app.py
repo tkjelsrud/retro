@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response, jsonify
-import json, datetime
+import json, datetime, hashlib
 from DbSetup import DbSetup
 from DbObject import DbObject
 from flask_sqlalchemy import SQLAlchemy
@@ -28,7 +28,10 @@ def node(n_id):
             if 'pid' in request.form:
                 pid = int(request.form['pid'])
 
-            n = DbObject(pid=pid, type=type, json=json)
+            skey = hashlib.md5(datetime.datetime.now()).hexdigest()[15:16]
+
+            n = DbObject(pid=pid, type=type, json=json, skey=skey)
+
             db.session.add(n)
             db.session.commit()
 
