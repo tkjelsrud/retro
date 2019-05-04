@@ -15,5 +15,6 @@ class DbObject(db.Model, JsonModel):
     id = db.Column(db.Integer, primary_key=True)
     pid = db.Column(db.Integer)
     type = db.Column(db.String(16))
+    json = db.Column(db.String(2048))
     ts = db.Column(db.DateTime())
     skey = db.Column(db.String(16))
