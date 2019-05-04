@@ -22,7 +22,7 @@ class TestRetro(unittest.TestCase):
 
         db = SQLAlchemy(app)
 
-        o = DbObject(type="Test", json="{}")
+        o = DbObject(type="Test", json="{}", skey="TEST")
         db.session.add(o)
         db.session.commit()
 
@@ -55,7 +55,7 @@ class TestRetro(unittest.TestCase):
 
         db = SQLAlchemy(app)
         with app.app_context():
-            oList = DbObject.query.filter_by(pid=12)
+            oList = DbObject.query.filter_by(pid=0)
             self.assertTrue(oList.count() > 0)
 
 if __name__ == '__main__':

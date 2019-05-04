@@ -28,7 +28,7 @@ def node(n_id):
             if 'pid' in request.form:
                 pid = int(request.form['pid'])
 
-            skey = hashlib.md5(datetime.datetime.now()).hexdigest()[15:16]
+            skey = hashlib.md5(str(datetime.datetime.now()).encode("utf-8")).hexdigest()[16:32]
 
             n = DbObject(pid=pid, type=type, json=json, skey=skey)
 
