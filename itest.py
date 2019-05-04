@@ -5,10 +5,11 @@ import json
 # Integration test cases
 
 baseURL = "http://notoms.pythonanywhere.com/retro"
-testId = 0
 
 class TestRetroIntegration(unittest.TestCase):
-    def test_a_CreateObject(self):
+    def test_CreateAndLoadObject(self):
+        # Create
+
         try:
             data = parse.urlencode({'type':'board', 'json': '{}'}).encode()
             req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
@@ -29,7 +30,8 @@ class TestRetroIntegration(unittest.TestCase):
         except Exception as error:
                 assert False, "Integration test failed with exception " + str(error)
 
-    def test_b_LoadObject(self):
+        # Load
+
         try:
             with request.urlopen(baseURL + "/node/" + str(testId) + "?s=null") as response:
                 res = response.read()
@@ -41,7 +43,6 @@ class TestRetroIntegration(unittest.TestCase):
         except Exception as error:
             assert False, "Integration test failed with exception " + str(error)
 
-    def test_c_CreateChild(self):
         try:
             data = parse.urlencode({'pid': testId, 'type':'note', 'json': '{}'}).encode()
             req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
@@ -61,7 +62,6 @@ class TestRetroIntegration(unittest.TestCase):
         except Exception as error:
                 assert False, "Integration test failed with exception " + str(error)
 
-    def test_d_LoadObjectList(self):
         try:
             with request.urlopen(baseURL + "/node/" + str(testId) + "/children") as response:
                 res = response.read()
