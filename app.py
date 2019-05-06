@@ -51,7 +51,7 @@ def node(n_id):
             if requireKey:
                 if 's' not in request.args or request.args['s'] != n.skey:
                     return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)
-                    
+
             if 'json' in request.form:
                 n.json = request.form['json']
 
@@ -113,7 +113,7 @@ def children(n_id):
             if cList:
                 dList = []
                 for b in cList:
-                    dList.append({'id': b.id, 'type': b.type, 'json':b.json})
+                    dList.append({'id': b.id, 'pid': b.pid, 'type': b.type, 'json':b.json, 'skey': b.skey, 'ts': b.ts})
 
                 return make_response(jsonify({'result': 200, 'id': n_id, 'json': dList}), 200)
 
