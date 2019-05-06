@@ -12,7 +12,7 @@ class TestRetroIntegration(unittest.TestCase):
         testId = 0
 
         try:
-            data = parse.urlencode({'type':'board', 'json': '{"content":"v1"}'}).encode()
+            data = parse.urlencode({'type':'group', 'json': '{"content":"v1"}', 'skey': 'TEST'}).encode()
             req = request.Request(baseURL + "/node/0", data=data, method='POST')
             response = request.urlopen(req)
             res = response.read()
@@ -46,7 +46,7 @@ class TestRetroIntegration(unittest.TestCase):
         #
         # Load
         try:
-            with request.urlopen(baseURL + "/node/" + str(testId) + "?s=null") as response:
+            with request.urlopen(baseURL + "/node/" + str(testId) + "?s=TEST") as response:
                 res = response.read()
                 js = json.loads(res)
 
@@ -58,7 +58,7 @@ class TestRetroIntegration(unittest.TestCase):
             assert False, "Integration test LOAD failed with exception " + str(error)
 
         try:
-            data = parse.urlencode({'pid': testId, 'type':'note', 'json': '{}'}).encode()
+            data = parse.urlencode({'pid': testId, 'type':'note', 'json': '{}', 'skey': 'TEST'}).encode()
             req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
             response = request.urlopen(req)
             res = response.read()
