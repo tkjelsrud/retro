@@ -25,9 +25,6 @@ class TestRetroIntegration(unittest.TestCase):
             testId = int(js['id'])
             print("Created " + str(testId))
 
-        except AssertionError:
-            pass
-
         except Exception as error:
                 assert False, "Integration test POST/CREATE failed with exception " + str(error)
 
@@ -43,9 +40,6 @@ class TestRetroIntegration(unittest.TestCase):
 
             self.assertTrue(js['result'] == "200")
 
-        except AssertionError:
-            pass
-
         except Exception as error:
             assert False, "Integration test UPDATE failed with exception " + str(error)
         #
@@ -56,7 +50,7 @@ class TestRetroIntegration(unittest.TestCase):
                 js = json.loads(res)
 
                 self.assertTrue(js['result'] == "200")
-                self.assertTrye(js['json']['content'] == "v2") # Check that update was done
+                self.assertTrue(js['json']['content'] == "v2") # Check that update was done
 
         except AssertionError:
             pass
@@ -77,9 +71,6 @@ class TestRetroIntegration(unittest.TestCase):
 
             testId = int(js['id'])
 
-        except AssertionError:
-            pass
-
         except Exception as error:
                 assert False, "Integration test failed with exception " + str(error)
 
@@ -92,9 +83,6 @@ class TestRetroIntegration(unittest.TestCase):
                 self.assertTrue(len(js) == 1)
                 self.assertTrue(int(js[0]['pid']) > 0)
                 self.assertTrue(int(js[0]['pid']) == testId)
-
-        except AssertionError:
-            pass
 
         except Exception as error:
                 assert False, "Integration test failed with exception " + str(error)
