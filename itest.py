@@ -50,7 +50,7 @@ class TestRetroIntegration(unittest.TestCase):
                 res = response.read()
                 js = json.loads(res)
 
-                self.assertTrue(js['result'] == "200")
+                self.assertTrue(int(js['result']) == 200)
                 self.assertTrue(js['json']['content'] == "v2") # Check that update was done
 
         except Exception as error:
@@ -64,7 +64,7 @@ class TestRetroIntegration(unittest.TestCase):
 
             js = json.loads(res)
 
-            self.assertTrue(js['result'] == "200")
+            self.assertTrue(int(js['result']) == "200")
             self.assertTrue(int(js['id']) > 0)
 
             testId = int(js['id'])
@@ -77,6 +77,7 @@ class TestRetroIntegration(unittest.TestCase):
                 res = response.read()
                 js = json.loads(res)
 
+                self.assertTrue(int(js['result']) == "200")
                 self.assertTrue(isinstance(js, list))
                 self.assertTrue(len(js) == 1)
                 self.assertTrue(int(js[0]['pid']) > 0)
