@@ -34,7 +34,7 @@ def node(n_id):
 
             db.session.add(n)
             db.session.commit()
-            db.session.close()
+            #db.session.close()
 
             return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json, 'skey':n.skey, 'ts': n.ts}), 200)
         except Exception as error:
@@ -89,7 +89,7 @@ def node(n_id):
         try:
             db.session.query(DbObject).filter(DbObject.id == n_id).delete()
             db.session.commit()
-            db.session.close()
+            #db.session.close()
 
             return make_response(jsonify({'result': 200, 'id': n_id}), 200)
         except Exception as error:
