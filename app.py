@@ -112,7 +112,7 @@ def children(n_id):
         try:
             cList = []
             if requireKey:
-                if 's' not in request.arg:
+                if 's' not in request.args:
                     return make_response(jsonify({'result': 403, 'message': 'Key required'}), 200)
 
                 key = request.args['s']
