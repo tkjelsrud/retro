@@ -110,7 +110,17 @@ def node(n_id):
 def children(n_id):
     if request.method == "GET":
         try:
-            cList = DbObject.query.filter_by(pid=n_id)
+            cList = []
+            if requireKey:
+                if 's' not in request.arg:
+                    return make_response(jsonify({'result': 403, 'message': 'Key required'}), 200)
+
+                key = request.args['s']
+
+                cList = DbObject.query.filter_by(pid=n_id,skey=key)
+            else:
+                cList = DbObject.query.filter_by(pid=n_id)
+
             db.session.close()
 
             if cList:

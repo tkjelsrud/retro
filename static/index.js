@@ -1,6 +1,6 @@
-function loadBoard(id) {
+function loadBoard(id, key) {
   $.ajax({
-        url: '/retro/board/' + id,
+        url: '/retro/node/' + id + '?s=' + key,
         dataType: 'json',
         cache: false
     }).done(function(data){
@@ -12,9 +12,9 @@ function loadBoard(id) {
   });
 }
 
-function loadBoardNotes(id) {
+function loadBoardElements(id) {
   $.ajax({
-        url: '/retro/board/' + id + '/notes',
+        url: '/retro/node/' + id + '/children',
         dataType: 'json',
         cache: false
     }).done(function(data){
