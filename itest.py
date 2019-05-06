@@ -26,6 +26,7 @@ class TestRetroIntegration(unittest.TestCase):
             print("Created " + str(testId))
 
         except Exception as error:
+                print(js)
                 assert False, "Integration test POST/CREATE failed with exception " + str(error)
 
         #
@@ -51,9 +52,6 @@ class TestRetroIntegration(unittest.TestCase):
 
                 self.assertTrue(js['result'] == "200")
                 self.assertTrue(js['json']['content'] == "v2") # Check that update was done
-
-        except AssertionError:
-            pass
 
         except Exception as error:
             assert False, "Integration test LOAD failed with exception " + str(error)
