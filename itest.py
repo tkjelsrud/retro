@@ -54,6 +54,7 @@ class TestRetroIntegration(unittest.TestCase):
                 self.assertTrue(js['json']['content'] == "v2") # Check that update was done
 
         except Exception as error:
+            print(js)
             assert False, "Integration test LOAD failed with exception " + str(error)
 
         try:
