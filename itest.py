@@ -41,6 +41,8 @@ class TestRetroIntegration(unittest.TestCase):
 
             js = json.loads(res)
 
+            self.assertTrue(js['result'] == "200")
+
         except AssertionError:
             pass
 
@@ -52,6 +54,8 @@ class TestRetroIntegration(unittest.TestCase):
             with request.urlopen(baseURL + "/node/" + str(testId) + "?s=null") as response:
                 res = response.read()
                 js = json.loads(res)
+
+                self.assertTrue(js['result'] == "200")
 
         except AssertionError:
             pass
