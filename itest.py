@@ -29,21 +29,25 @@ class TestRetroIntegration(unittest.TestCase):
             pass
 
         except Exception as error:
-                assert False, "Integration test failed with exception " + str(error)
+                assert False, "Integration test POST/CREATE failed with exception " + str(error)
 
         #
         # Update
+        try:
+            data = parse.urlencode({'type':'board', 'json': '{"content":"v2"}'}).encode()
+            req = request.Request(baseURL + "/node/" + str(testId), data=data, method='PUT')
+            response = request.urlopen(req)
+            res = response.read()
 
-        data = parse.urlencode({'type':'board', 'json': '{"content":"v2"}'}).encode()
-        req = request.Request(baseURL + "/node/" + str(testId), data=data, method='PUT')
-        response = request.urlopen(req)
-        res = response.read()
+            js = json.loads(res)
 
-        js = json.loads(res)
+        except AssertionError:
+            pass
 
+        except Exception as error:
+            assert False, "Integration test UPDATE failed with exception " + str(error)
         #
         # Load
-
         try:
             with request.urlopen(baseURL + "/node/" + str(testId) + "?s=null") as response:
                 res = response.read()
@@ -53,7 +57,7 @@ class TestRetroIntegration(unittest.TestCase):
             pass
 
         except Exception as error:
-            assert False, "Integration test failed with exception " + str(error)
+            assert False, "Integration test LOAD failed with exception " + str(error)
 
         try:
             data = parse.urlencode({'pid': testId, 'type':'note', 'json': '{}'}).encode()
