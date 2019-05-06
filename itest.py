@@ -85,8 +85,8 @@ class TestRetroIntegration(unittest.TestCase):
                 self.assertTrue(int(js['result']) == 200)
                 self.assertTrue(isinstance(js['json'], list))
                 self.assertTrue(len(js['json']) == 1)
-                self.assertTrue(int(js[0]['pid']) > 0)
-                self.assertTrue(int(js[0]['pid']) == testId)
+                self.assertTrue(int(js['json'][0]['pid']) > 0)
+                self.assertTrue(int(js['json'][0]['pid']) == testId)
 
         except Exception as error:
                 print(js)
