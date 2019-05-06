@@ -55,7 +55,7 @@ class TestRetroIntegration(unittest.TestCase):
 
                 self.assertTrue(int(js['result']) == 200)
 
-                innerjs = json.loads(js['json']) # Why do we need to load, should be json through...
+                innerjs = js['json']
 
                 self.assertTrue(innerjs['content'] == "v2") # Check that update was done
 
