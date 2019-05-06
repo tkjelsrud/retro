@@ -89,4 +89,5 @@ class TestRetroIntegration(unittest.TestCase):
                 self.assertTrue(int(js[0]['pid']) == testId)
 
         except Exception as error:
+                print(js)
                 assert False, "Integration test failed with exception " + str(error)
