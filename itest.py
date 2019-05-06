@@ -19,7 +19,7 @@ class TestRetroIntegration(unittest.TestCase):
 
             js = json.loads(res)
 
-            self.assertTrue(js['result'] == "200")
+            self.assertTrue(int(js['result']) == 200)
             self.assertTrue(int(js['id']) > 0)
 
             testId = int(js['id'])
@@ -39,7 +39,7 @@ class TestRetroIntegration(unittest.TestCase):
 
             js = json.loads(res)
 
-            self.assertTrue(js['result'] == "200")
+            self.assertTrue(int(js['result']) == 200)
 
         except Exception as error:
             assert False, "Integration test UPDATE failed with exception " + str(error)
