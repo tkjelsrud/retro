@@ -29,6 +29,8 @@ def node(n_id):
                 pid = int(request.form['pid'])
 
             skey = hashlib.md5(str(datetime.datetime.now()).encode("utf-8")).hexdigest()[16:32]
+            if 'skey' in request.form:
+                skey = request.form['skey']
 
             n = DbObject(pid=pid, type=type, json=json, skey=skey)
 
@@ -46,6 +48,10 @@ def node(n_id):
         try:
             n = DbObject.query.filter_by(id=n_id).one()
 
+            if requireKey:
+                if 's' not in request.args or request.args['s'] != n.skey:
+                    return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)
+                    
             if 'json' in request.form:
                 n.json = request.form['json']
 

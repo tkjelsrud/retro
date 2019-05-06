@@ -10,9 +10,10 @@ class TestRetroIntegration(unittest.TestCase):
     def test_CreateAndLoadObject(self):
         # Create
         testId = 0
+        skey = ''
 
         try:
-            data = parse.urlencode({'type':'group', 'json': '{"content":"v1"}', 'skey': 'TEST'}).encode()
+            data = parse.urlencode({'type':'group', 'json': '{"content":"v1"}'}).encode()
             req = request.Request(baseURL + "/node/0", data=data, method='POST')
             response = request.urlopen(req)
             res = response.read()
@@ -21,6 +22,8 @@ class TestRetroIntegration(unittest.TestCase):
 
             self.assertTrue(int(js['result']) == 200)
             self.assertTrue(int(js['id']) > 0)
+
+            skey = js['skey']
 
             testId = int(js['id'])
             print("Created " + str(testId))
@@ -33,7 +36,7 @@ class TestRetroIntegration(unittest.TestCase):
         # Update
         try:
             data = parse.urlencode({'type':'board', 'json': '{"content":"v2"}'}).encode()
-            req = request.Request(baseURL + "/node/" + str(testId), data=data, method='PUT')
+            req = request.Request(baseURL + "/node/" + str(testId) + "?s=" + skey, data=data, method='PUT')
             response = request.urlopen(req)
             res = response.read()
 
@@ -46,7 +49,7 @@ class TestRetroIntegration(unittest.TestCase):
         #
         # Load
         try:
-            with request.urlopen(baseURL + "/node/" + str(testId) + "?s=TEST") as response:
+            with request.urlopen(baseURL + "/node/" + str(testId) + "?s=" + skey) as response:
                 res = response.read()
                 js = json.loads(res)
 
