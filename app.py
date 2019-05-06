@@ -117,11 +117,9 @@ def children(n_id):
 
                 key = request.args['s']
 
-                cList = DbObject.query.filter_by(pid=n_id,skey=key)
+                cList = DbObject.query.filter_by(pid=n_id, skey=key)
             else:
                 cList = DbObject.query.filter_by(pid=n_id)
-
-            db.session.close()
 
             if cList:
                 dList = []
@@ -136,6 +134,9 @@ def children(n_id):
             db.session.rollback()
             db.session.close()
             return make_response(jsonify({'result': 500, 'message': 'Error in loading children. ' + str(error)}), 200)
+
+        finally:
+            db.session.close()
 
 @app.route("/retro", methods=["GET"])
 @app.route("/retro/", methods=["GET"])
