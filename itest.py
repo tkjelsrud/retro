@@ -10,10 +10,10 @@ class TestRetroIntegration(unittest.TestCase):
     def test_CreateAndLoadObject(self):
         # Create
         testId = 0
-        
+
         try:
-            data = parse.urlencode({'type':'board', 'json': '{}'}).encode()
-            req = request.Request(baseURL + "/node/0", data=data) # this will make the method "POST"
+            data = parse.urlencode({'type':'board', 'json': '{"content":"v1"}'}).encode()
+            req = request.Request(baseURL + "/node/0", data=data, method='POST')
             response = request.urlopen(req)
             res = response.read()
 
@@ -31,6 +31,17 @@ class TestRetroIntegration(unittest.TestCase):
         except Exception as error:
                 assert False, "Integration test failed with exception " + str(error)
 
+        #
+        # Update
+
+        data = parse.urlencode({'type':'board', 'json': '{"content":"v2"}'}).encode()
+        req = request.Request(baseURL + "/node/" + str(testId), data=data, method='PUT')
+        response = request.urlopen(req)
+        res = response.read()
+
+        js = json.loads(res)
+
+        #
         # Load
 
         try:

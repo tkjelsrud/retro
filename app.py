@@ -16,7 +16,7 @@ requireKey = True
 
 # Always returning OK 200 to avoid default sever error pages
 
-@app.route(appRoot + "/node/<int:n_id>", methods=["GET", "POST", "DELETE"])
+@app.route(appRoot + "/node/<int:n_id>", methods=["GET", "POST", "PUT", "DELETE"])
 def node(n_id):
     if request.method == "POST":
         # We don't care about n_id, probably should be posted on n_id=0
@@ -41,6 +41,29 @@ def node(n_id):
             db.session.rollback()
             db.session.close()
             return make_response(jsonify({'result': 500, 'message': 'Error or missing one of required input pid, type, json. ' + str(error)}), 200)
+
+    if request.method == "PUT":
+        try:
+            n = DbObject.query.filter_by(id=n_id).one()
+
+            if 'json' in request.form:
+                n.json = request.form['json']
+
+            if 'pid' in request.form:
+                n.pid = int(request.form['pid'])
+
+            db.session.commit()
+
+            n = DbObject.query.filter_by(id=n_id).one() # Get again to get new timestamp (?)
+
+            db.session.close()
+
+            return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json, 'skey':n.skey, 'ts': n.ts}), 200)
+        except Exception as error:
+            db.session.rollback()
+            db.session.close()
+            return make_response(jsonify({'result': 500, 'message': 'Error or missing one of required input pid, type, json. ' + str(error)}), 200)
+
 
     if request.method == "GET":
         try:
