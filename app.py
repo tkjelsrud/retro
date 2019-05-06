@@ -22,8 +22,8 @@ def node(n_id):
         # We don't care about n_id, probably should be posted on n_id=0
         try:
             pid = None
-            type = request.form['type']
-            json = request.form['json']
+            typ = request.form['type']
+            jso = request.form['json']
 
             if 'pid' in request.form:
                 pid = int(request.form['pid'])
@@ -32,7 +32,7 @@ def node(n_id):
             if 'skey' in request.form:
                 skey = request.form['skey']
 
-            n = DbObject(pid=pid, type=type, json=json, skey=skey)
+            n = DbObject(pid=pid, type=typ, json=jso, skey=skey)
 
             db.session.add(n)
             db.session.commit()
