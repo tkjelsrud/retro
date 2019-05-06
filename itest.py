@@ -79,7 +79,7 @@ class TestRetroIntegration(unittest.TestCase):
                 assert False, "Integration test POST CHILD failed with exception " + str(error)
 
         try:
-            with request.urlopen(baseURL + "/node/" + str(testId) + "/children") as response:
+            with request.urlopen(baseURL + "/node/" + str(testId) + "/children?s=" + skey) as response:
                 res = response.read()
                 js = json.loads(res)
 
