@@ -65,6 +65,7 @@ def node(n_id):
             db.session.close()
 
             return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json, 'skey':n.skey, 'ts': n.ts}), 200)
+            
         except Exception as error:
             db.session.rollback()
             db.session.close()
@@ -79,11 +80,11 @@ def node(n_id):
             if requireKey:
                 if 's' not in request.args or request.args['s'] != n.skey:
                     return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)
-
             if n:
-                return make_response(jsonify({'result': 200, 'id': n.id, 'json':json.loads(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
+                return make_response(jsonify({'result': 200, 'id': n.id, 'json': n.json, 'skey':n.skey, 'ts': n.ts}), 200)
 
             return make_response(jsonify({'result': 404, 'id': n_id}), 200)
+
         except Exception as error:
             db.session.rollback()
             db.session.close()
