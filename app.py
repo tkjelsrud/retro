@@ -17,7 +17,7 @@ requireKey = True
 # Always returning OK 200 to avoid default sever error pages
 
 def recodeJson(jStr):
-    return jStr
+    return json.loads(jStr)
     #return str(json.loads(jStr))[1:-1]
 
 @app.route(appRoot + "/node/<int:n_id>", methods=["GET", "POST", "PUT", "DELETE"])
