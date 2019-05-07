@@ -88,7 +88,7 @@
     key = $.urlParam('k');
 
     $.ajax({
-      url: '/retro/node/' + id + '?s=' + key,
+      url: '/retro/node/' + ctx + '?s=' + key,
       dataType: 'json',
       cache: false
     }).done(function(data){
