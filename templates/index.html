@@ -11,18 +11,18 @@
 <body>
 <div id="setUser">
   <div class="title">Set user</div>
-  <span class="label">Name<span> <input id="uname" type="text" name="uname" />
-  <span class="label">UUID<span> <input id="uuid" type="text" name="uuid" />
+  <span class="label">Name</span> <input id="uname" type="text" name="uname" />
+  <span class="label">UUID</span> <input id="uuid" type="text" name="uuid" />
   <input type="button" value="OK" />
 </div>
 <div id="setContext">
   <div class="title">Enter context</div>
   <!-- Creating -->
-  <span class="label">Title<span> <input id="cname" type="text" name="cname" />
-  <span class="label">UUID<span> <input id="cuuid" type="text" name="cuuid" />
+  <span class="label">Title</span> <input id="cname" type="text" name="cname" />
+  <span class="label">UUID</span> <input id="cuuid" type="text" name="cuuid" />
 
   <!-- Should probably be a select list -->
-  <span class="label">Theme<span> <input id="ctheme" type="text" name="ctheme" />
+  <span class="label">Theme</span> <input id="ctheme" type="text" name="ctheme" />
 </body>
 <div id="context">
   <div class="title">Context</div>
@@ -86,7 +86,7 @@
   }
 
 
-  function loadContext(id, key) {
+  function loadContext() {
     ctx = $.urlParam('c');
     key = $.urlParam('k');
 
