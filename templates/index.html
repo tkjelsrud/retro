@@ -153,7 +153,8 @@
   function storeNode(id) {
     node = $("#node_" + id);
     nClass = $(node).attr('class');
-    text = $(node).innerHtml();
+    text = $(node).text();
+    created = getUserKey();
 
     $.post("/retro/node/" + id, postData).done(function(result) {
       alert( "Data Loaded: " + result );

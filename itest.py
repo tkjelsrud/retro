@@ -37,7 +37,7 @@ class TestRetroIntegration(unittest.TestCase):
         # Update
         try:
             data = parse.urlencode({'type':'board', 'json': '{"content":"v2"}'}).encode()
-            req = request.Request(baseURL + "/node/" + str(testId) + "?s=" + skey, data=data, method='PUT')
+            req = request.Request(baseURL + "/node/" + str(testId) + "?s=" + skey, data=data, method='POST')
             response = request.urlopen(req)
             res = response.read()
 

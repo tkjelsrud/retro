@@ -23,7 +23,6 @@ def recodeJson(jStr):
 @app.route(appRoot + "/node/<int:n_id>", methods=["GET", "POST", "PUT", "DELETE"])
 def node(n_id):
     if request.method == "POST":
-        # We don't care about n_id, probably should be posted on n_id=0
         try:
             pid = None
             typ = request.form['type']
@@ -36,11 +35,21 @@ def node(n_id):
             if 'skey' in request.form:
                 skey = request.form['skey']
 
-            n = DbObject(pid=pid, type=typ, json=jso, skey=skey)
+            if n_id > 0:
+                # Probable update
+                n = DbObject.query.filter_by(id=n_id, key=skey).one()
 
-            db.session.add(n)
+                if n:
+                    # Update, only support changing the json for now?
+                    n.json = jso
+                else:
+                    return make_response(jsonify({'result': 404, 'message': 'Got node to update but not found'}), 200)
+            else:
+                # New
+                n = DbObject(pid=pid, type=typ, json=jso, skey=skey)
+                db.session.add(n)
+
             db.session.commit()
-            #db.session.close()
 
             return make_response(jsonify({'result': 200, 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
         except Exception as error:
