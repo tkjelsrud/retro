@@ -26,6 +26,7 @@ class TestRetroIntegration(unittest.TestCase):
             skey = js['skey']
 
             testId = int(js['id'])
+            // TODO: skey =
             print("Created " + str(testId))
 
         except Exception as error:
@@ -65,7 +66,7 @@ class TestRetroIntegration(unittest.TestCase):
 
         # Create child
         try:
-            data = parse.urlencode({'pid': testId, 'type':'note', 'json': '{}', 'skey': 'TEST'}).encode()
+            data = parse.urlencode({'pid': testId, 'type':'note', 'json': '{}', 'skey': skey}).encode()
             req = request.Request(baseURL + "/node/0", data=data, method='POST') # this will make the method "POST"
             response = request.urlopen(req)
             res = response.read()
