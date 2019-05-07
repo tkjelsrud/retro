@@ -5,7 +5,17 @@
 
   <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
 
+  <style>
+  #board {
 
+  }
+  .node {
+    float: left;
+    margin: 5px;
+    border: 1px solid grey;
+    background-color: yellow;
+  }
+  </style>
 </head>
 
 <body>
@@ -102,7 +112,7 @@
         $("#debug").text(JSON.stringify(data['json']));
 
         // TODO: Load the elements
-        loadContextChildren();
+        loadContextChildren(ctx, key);
 
         setView('context');
       }
@@ -113,9 +123,7 @@
     });
   }
 
-  function loadContextChildren() {
-    ctx = $.urlParam('c');
-    key = $.urlParam('k');
+  function loadContextChildren(ctx, key) {
     $.ajax({
       url: '/retro/node/' + ctx + '/children?s=' + key,
       dataType: 'json',
@@ -123,14 +131,22 @@
     }).done(function(data){
       res = data['result'];
       if(res == 200) {
-        console.log(data);
+        cList = data['json'];
+        for(i = 0; i < cList.length; i++) {
+          drawNode(cList[i);
+        }
       }
       else {
         alert('Something failed - see console for response');
         console.log(data);
       }
     });
+  }
 
+  function drawNode(json) {
+    nClass = ("class" in json ? json["class"] : "node");
+
+    $("#board").append("<div class=\"" + nClass + "\">" + JSON.stringify(json) + "</div>");
   }
 
   // INIT
