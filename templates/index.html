@@ -159,11 +159,10 @@
     nClass = $(node).attr('class');
     text = $(node).text();
     created = getUserKey();
+    postJson = {'json': {'class': nClass, 'text': text, 'user': created}};
 
-    postData = {'json': {'class': nClass, 'text': text, 'user': created}};
-
-    $.post("/retro/node/" + id + "?s=" + getCtxKey(), postData).done(function(result) {
-      alert( "Data Loaded: " + result );
+    $.post("/retro/node/" + id + "?s=" + getCtxKey(), JSON.stringify(postJson)).done(function(result) {
+      console.log(result);
     });
   }
 
