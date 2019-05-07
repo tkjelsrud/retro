@@ -25,15 +25,22 @@ def node(n_id):
     if request.method == "POST":
         try:
             pid = None
-            typ = request.form['type']
+            typ = None
+
+            if 'type' in request.form:
+                typ = request.form['type']
+
             jso = request.form['json']
 
             if 'pid' in request.form:
                 pid = int(request.form['pid'])
 
             skey = hashlib.md5(str(datetime.datetime.now()).encode("utf-8")).hexdigest()[16:32]
+            if 's' in request.args:
+                skey = request.args['s']
             if 'skey' in request.form:
                 skey = request.form['skey']
+
 
             if n_id > 0:
                 # Probable update
