@@ -2,11 +2,102 @@
 <html>
 <head>
   <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-  
+
   <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
+
+
 </head>
 
 <body>
-.
+<div id="setUser">
+  <span class="label">Name<span> <input id="uname" type="text" name="name" />
+  <span class="label">UUID<span> <input id="uuid" type="text" name="uuid" />
+  <input type="button" value="OK" />
+</div>
+<div id="setContext">
 </body>
+<div id="context">
+
+</div>
+
+<script type="text/javascript">
+  // Move this to separate file
+  // TODO: this function is not stable, 15 or 16 chars
+  //var uniqueId = Math.random().toString(36).substring(2)
+  //             + (new Date()).getTime().toString(36).substring(3, 11);
+  //$('#uuid').val(uniqueId);
+
+  $.urlParam = function (name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+                        .exec(window.location.search);
+      return (results !== null) ? results[1] || 0 : false;
+  }
+
+  function setView(view) {
+    views = new Array("setUser", "setContext", "context");
+    // TODO:
+    //
+    //
+  }
+
+  function setUser(name, key) {
+    localStorage.setItem("user.name", name);
+    localStorage.setItem("user.key", key);
+  }
+
+  function loadAndValidateUser() {
+    name = localStorage.getItem("user.name");
+    key =  localStorage.getItem("user.key");
+
+    if(name && key && name != "" && key != "")
+      return true;
+
+    return false;
+  }
+
+  function getUserKey() {
+    return localStorage.getItem("user.key");
+  }
+
+  function hasContext() {
+    ctx = $.urlParam('c');
+    key = $.urlParam('k');
+
+    return (key != false && ctx != false);
+  }
+
+  function getContext(key) {
+    ctx = $.urlParam('c');
+    key = $.urlParam('k');
+
+    loadContext(ctx, key);
+  }
+
+  if(!loadAndValidateUser()) {
+    setView('setUser');
+  }
+  else {
+    if(hasContext()) {
+      setView('context');
+    }
+    else {
+      setView('setContext');
+    }
+  }
+
+  function loadContext(id, key) {
+    $.ajax({
+          url: '/retro/node/' + id + '?s=' + key,
+          dataType: 'json',
+          cache: false
+      }).done(function(data){
+        alert(data);
+      //for(i = 0; i < data['notes'].length; i++) {
+      //        nd = data['notes'][i];
+      //        DrawNote(nd);
+      //}
+    });
+  }
+
+</script>
 </html>
