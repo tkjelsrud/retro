@@ -46,6 +46,7 @@ class TestRetroIntegration(unittest.TestCase):
             self.assertTrue(int(js['result']) == 200)
 
         except Exception as error:
+            print(js)
             assert False, "Integration test UPDATE failed with exception " + str(error)
         #
         # Load
