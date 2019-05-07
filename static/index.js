@@ -4,7 +4,7 @@ function loadBoard(id, key) {
         dataType: 'json',
         cache: false
     }).done(function(data){
-      alert(data);
+      console.log(data);
     //for(i = 0; i < data['notes'].length; i++) {
     //        nd = data['notes'][i];
     //        DrawNote(nd);

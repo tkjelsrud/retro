@@ -10,14 +10,23 @@
 
 <body>
 <div id="setUser">
-  <span class="label">Name<span> <input id="uname" type="text" name="name" />
+  <div class="title">Set user</div>
+  <span class="label">Name<span> <input id="uname" type="text" name="uname" />
   <span class="label">UUID<span> <input id="uuid" type="text" name="uuid" />
   <input type="button" value="OK" />
 </div>
 <div id="setContext">
+  <div class="title">Enter context</div>
+  <!-- Creating -->
+  <span class="label">Title<span> <input id="cname" type="text" name="cname" />
+  <span class="label">UUID<span> <input id="cuuid" type="text" name="cuuid" />
+
+  <!-- Should probably be a select list -->
+  <span class="label">Theme<span> <input id="ctheme" type="text" name="ctheme" />
 </body>
 <div id="context">
-
+  <div class="title">Context</div>
+  <span id="debug">...</span>
 </div>
 
 <script type="text/javascript">
@@ -35,6 +44,12 @@
 
   function setView(view) {
     views = new Array("setUser", "setContext", "context");
+
+    for(v in views) {
+      $("#" + v).hide();
+    }
+
+    $("#" + view).show();
     // TODO:
     //
     //
@@ -59,26 +74,19 @@
     return localStorage.getItem("user.key");
   }
 
-  function hasContext() {
+  function hasContextKey() {
     ctx = $.urlParam('c');
     key = $.urlParam('k');
 
     return (key != false && ctx != false);
   }
 
-  function getContext(key) {
-    ctx = $.urlParam('c');
-    key = $.urlParam('k');
-
-    loadContext(ctx, key);
-  }
-
   if(!loadAndValidateUser()) {
     setView('setUser');
   }
   else {
-    if(hasContext()) {
-      setView('context');
+    if(hasContextKey()) {
+      loadContext();
     }
     else {
       setView('setContext');
@@ -86,16 +94,24 @@
   }
 
   function loadContext(id, key) {
+    ctx = $.urlParam('c');
+    key = $.urlParam('k');
+
     $.ajax({
-          url: '/retro/node/' + id + '?s=' + key,
-          dataType: 'json',
-          cache: false
-      }).done(function(data){
-        alert(data);
-      //for(i = 0; i < data['notes'].length; i++) {
-      //        nd = data['notes'][i];
-      //        DrawNote(nd);
-      //}
+      url: '/retro/node/' + id + '?s=' + key,
+      dataType: 'json',
+      cache: false
+    }).done(function(data){
+      res = data['result'];
+      if(res == 200) {
+        // TODO: Load the elements
+        setView('context');
+        $("#debug").text(data['json']);
+      }
+      else {
+        alert('Something failed - see console for response');
+        console.log(data);
+      }
     });
   }
 
