@@ -133,7 +133,7 @@
       if(res == 200) {
         cList = data['json'];
         for(i = 0; i < cList.length; i++) {
-          drawNode(cList[i);
+          drawNode(cList[i]);
         }
       }
       else {
@@ -145,7 +145,6 @@
 
   function drawNode(json) {
     nClass = ("class" in json ? json["class"] : "node");
-
     $("#board").append("<div class=\"" + nClass + "\">" + JSON.stringify(json) + "</div>");
   }
 
