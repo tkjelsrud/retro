@@ -144,8 +144,20 @@
   }
 
   function drawNode(json) {
+    id = ("id" in json ? json["id"] : "0");
     nClass = ("class" in json ? json["class"] : "node");
-    $("#board").append("<div class=\"" + nClass + "\">" + JSON.stringify(json) + "</div>");
+    text = ("text" in json ? json["text"] : "Write here...");
+    $("#board").append("<div id=\"node_" + id + "\" class=\"" + nClass + "\" title=\"" + JSON.stringify(json) + "\" contenteditable=\"true\">" + text + "</div>");
+  }
+
+  function storeNode(id) {
+    node = $("#node_" + id);
+    nClass = $(node).attr('class');
+    text = $(node).innerHtml();
+
+    $.post("/retro/node/" + id, postData).done(function(result) ) {
+      alert( "Data Loaded: " + result );
+    });
   }
 
   // INIT
