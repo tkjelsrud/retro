@@ -88,6 +88,10 @@
     return localStorage.getItem("user.key");
   }
 
+  function getCtxKey() {
+    return $.urlParam('k')
+  }
+
   function hasContextKey() {
     ctx = $.urlParam('c');
     key = $.urlParam('k');
@@ -156,7 +160,9 @@
     text = $(node).text();
     created = getUserKey();
 
-    $.post("/retro/node/" + id, postData).done(function(result) {
+    postData = {'json': {'class': nClass, 'text': text, 'user': created}};
+
+    $.post("/retro/node/" + id + "?s=" + getCtxKey(), postData).done(function(result) {
       alert( "Data Loaded: " + result );
     });
   }
