@@ -44,7 +44,7 @@ def node(n_id):
 
             if n_id > 0:
                 # Probable update
-                n = DbObject.query.filter_by(id=n_id, key=skey).one()
+                n = DbObject.query.filter_by(id=n_id, skey=skey).one()
 
                 if n:
                     # Update, only support changing the json for now?
