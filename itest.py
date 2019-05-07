@@ -44,6 +44,7 @@ class TestRetroIntegration(unittest.TestCase):
             js = json.loads(res)
 
             self.assertTrue(int(js['result']) == 200)
+            self.assertTrue(js['update'] == "True")
 
         except Exception as error:
             print(js)

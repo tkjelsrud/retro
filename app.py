@@ -26,6 +26,7 @@ def node(n_id):
         try:
             pid = None
             typ = None
+            upd = False
 
             if 'type' in request.form:
                 typ = request.form['type']
@@ -49,6 +50,7 @@ def node(n_id):
                 if n:
                     # Update, only support changing the json for now?
                     n.json = jso
+                    upd = True
                 else:
                     return make_response(jsonify({'result': 404, 'message': 'Got node to update but not found'}), 200)
             else:
@@ -58,7 +60,7 @@ def node(n_id):
 
             db.session.commit()
 
-            return make_response(jsonify({'result': 200, 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
+            return make_response(jsonify({'result': 200, 'update': str(upd), 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
         except Exception as error:
             db.session.rollback()
             db.session.close()
