@@ -24,6 +24,7 @@ def recodeJson(jStr):
 def node(n_id):
     if request.method == "POST":
         try:
+            print(request.__dict__)
             pid = None
             typ = None
             upd = False
@@ -63,8 +64,9 @@ def node(n_id):
             return make_response(jsonify({'result': 200, 'update': str(upd), 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
         except Exception as error:
             db.session.rollback()
+            return make_response(jsonify({'result': 500, 'message': 'Error on create or update. ' + str(error)}), 200)
+        finally:
             db.session.close()
-            return make_response(jsonify({'result': 500, 'message': 'Error or missing one of required input pid, type, json. ' + str(error)}), 200)
 
     if request.method == "PUT":
         try:

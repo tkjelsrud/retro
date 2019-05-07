@@ -161,8 +161,19 @@
     created = getUserKey();
     postJson = {'json': {'class': nClass, 'text': text, 'user': created}};
 
-    $.post("/retro/node/" + id + "?s=" + getCtxKey(), JSON.stringify(postJson)).done(function(result) {
-      console.log(result);
+    $.ajax({
+      type: "POST",
+      url: "/retro/node/" + id + "?s=" + getCtxKey(),
+      data: JSON.stringify(postJson),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data){
+        console.log(result);
+      },
+      failure: function(errMsg) {
+          alert(errMsg);
+          console.log(errMsg);
+      }
     });
   }
 
