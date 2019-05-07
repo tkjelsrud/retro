@@ -155,7 +155,7 @@
     nClass = $(node).attr('class');
     text = $(node).innerHtml();
 
-    $.post("/retro/node/" + id, postData).done(function(result) ) {
+    $.post("/retro/node/" + id, postData).done(function(result) {
       alert( "Data Loaded: " + result );
     });
   }
