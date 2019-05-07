@@ -26,7 +26,7 @@ class TestRetroIntegration(unittest.TestCase):
             skey = js['skey']
 
             testId = int(js['id'])
-            // TODO: skey =
+            skey = js['skey']
             print("Created " + str(testId))
 
         except Exception as error:
