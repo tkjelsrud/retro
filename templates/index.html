@@ -97,15 +97,40 @@
     }).done(function(data){
       res = data['result'];
       if(res == 200) {
+        // Validate board
+        // TODO: are we admin - do we have admins? (MVP)
+        $("#debug").text(JSON.stringify(data['json']);
+
         // TODO: Load the elements
+        loadContextChildren();
+
         setView('context');
-        $("#debug").text(data['json']);
       }
       else {
         alert('Something failed - see console for response');
         console.log(data);
       }
     });
+  }
+
+  function loadContextChildren() {
+    ctx = $.urlParam('c');
+    key = $.urlParam('k');
+    $.ajax({
+      url: '/retro/node/' + ctx + '/children?s=' + key,
+      dataType: 'json',
+      cache: false
+    }).done(function(data){
+      res = data['result'];
+      if(res == 200) {
+        console.log(data);
+      }
+      else {
+        alert('Something failed - see console for response');
+        console.log(data);
+      }
+    });
+
   }
 
   // INIT
