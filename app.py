@@ -10,9 +10,18 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_POOL_SIZE'] = 100
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 280
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {autoflush=False}
+#app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {autoflush:False}
 
-db = SQLAlchemy(app)
+from sqlalchemy import create_engine
+engine = create_engine(DbSetup.getUri())
+
+Base.metadata.create_all(engine)
+
+from sqlalchemy.orm import sessionmaker
+Session = sessionmaker(bind=engine, autoflush=False)
+session = Session()
+
+#db = SQLAlchemy(app)
 
 #autoflush=False
 
@@ -56,7 +65,8 @@ def node(n_id):
 
             if n_id > 0:
                 # Probable update
-                n = DbObject.query.filter_by(id=n_id, skey=skey).one()
+                n = session.query(DbObject).filter_by(DbObject.id=n_id, DbObject.skey=skey).one()
+                #n = DbObject.query.filter_by(id=n_id, skey=skey).one()
 
                 if n:
                     # Update, only support changing the json for now?
@@ -65,26 +75,28 @@ def node(n_id):
                     elif isinstance(jso, str):
                         n.json = jso
 
+                    session.commit()
+
                     upd = True
                 else:
                     return make_response(jsonify({'result': 404, 'message': 'Got node to update but not found'}), 200)
             else:
                 # New
                 n = DbObject(pid=pid, type=typ, json=jso, skey=skey)
-                db.session.add(n)
-
-            db.session.commit()
+                session.add(n)
+                session.commit()
 
             return make_response(jsonify({'result': 200, 'update': str(upd), 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
         except Exception as error:
             #db.session.rollback()
             return make_response(jsonify({'result': 500, 'message': 'Error on create or update. ' + str(error)}), 200)
         finally:
-            db.session.close()
+            session.close()
 
     if request.method == "GET":
         try:
-            n = DbObject.query.filter_by(id=n_id).one()
+            n = session.query(DbObject).filter_by(DbObject.id=n_id).one()
+            #n = DbObject.query.filter_by(id=n_id).one()
 
             if requireKey:
                 if 's' not in request.args or request.args['s'] != n.skey:
@@ -95,24 +107,23 @@ def node(n_id):
             return make_response(jsonify({'result': 404, 'id': n_id}), 200)
 
         except Exception as error:
-            db.session.rollback()
-
+            #db.session.rollback()
             return make_response(jsonify({'result': 500, 'message': 'Unable to get node ' + str(error)}), 200)
         finally:
-            db.session.close()
+            session.close()
 
     if request.method == "DELETE":
         try:
-            db.session.query(DbObject).filter(DbObject.id == n_id).delete()
-            db.session.commit()
+            session.query(DbObject).filter(DbObject.id == n_id).delete()
+            session.commit()
             #db.session.close()
 
             return make_response(jsonify({'result': 200, 'id': n_id}), 200)
         except Exception as error:
-            db.session.rollback()
+            session.rollback()
             return make_response(jsonify({'result': 500, 'message': 'Unable to delete node' + str(error)}), 200)
         finally:
-            db.session.close()
+            session.close()
 
 @app.route(appRoot + "/node/<int:n_id>/children", methods=["GET"])
 def children(n_id):
@@ -125,9 +136,9 @@ def children(n_id):
 
                 key = request.args['s']
 
-                cList = DbObject.query.filter_by(pid=n_id, skey=key)
+                cList = session.query(DbObject).filter_by(DbObject.pid=n_id, DbObject.skey=key)
             else:
-                cList = DbObject.query.filter_by(pid=n_id)
+                cList = session.query(DbObject).filter_by(DbObject.pid=n_id)
 
             if cList:
                 dList = []
@@ -139,10 +150,10 @@ def children(n_id):
             return make_response(jsonify({'result': 500, 'id': n_id}), 200)
 
         except Exception as error:
-            db.session.rollback()
+            #db.session.rollback()
             return make_response(jsonify({'result': 500, 'message': 'Error in loading children for ' + str(n_id) + ": " + str(error)}), 200)
         finally:
-            db.session.close()
+            session.close()
 
 @app.route("/retro", methods=["GET"])
 @app.route("/retro/", methods=["GET"])
