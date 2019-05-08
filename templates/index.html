@@ -160,14 +160,40 @@
   function createOrUpdateNode(id, json) {
     if(id in gNodeData) {
       // UPDATE, TODO: check what has changed, poor implementation now
+      changes = nodeChangeType(id, json);
+      for(i = 0; i < changes.length; i++) {
+        if(changes[i] == "pos") {
+          $('#node_' + id).animate({
+                'top': json['json']['pos'].top,
+                'left': json['json']['pos'].left
+          }, 200);
+        }
+        if(changes[i] == "text") {
+          $('#node_' + id).text(json['json']['text']);
+        }
+      }
+
       gNodeData[id] = json;
-      $("#node_" + id).remove();
-      drawNode(json);
+      //$("#node_" + id).remove();
+      //drawNode(json);
     }
     else {
       gNodeData[id] = json;
       drawNode(json);
     }
+  }
+
+  function nodeChangeType(id, newJson) {
+    changes = new Array();
+    oldJson = gNodeData[id];
+    //if(oldJson['type'] != newJson['type'])
+    //  changes.push("type");
+    if(oldJson["json"]['pos'] != newJson["json"]['pos'])
+      changes.push("pos");
+    if(oldJson["json"]['text'] != newJson["json"]['pos'])
+        changes.push("text");
+
+    return changes;
   }
 
   function addBlankNode() {
