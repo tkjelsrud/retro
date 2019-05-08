@@ -163,7 +163,11 @@
     nClass = ("class" in json["json"] ? json["json"]["class"] : "node");
     text = ("text" in json["json"] ? json["json"]["text"] : "Write here...");
     $("#board").append("<div id=\"node_" + id + "\" class=\"" + nClass + "\" title=\"" + JSON.stringify(json) + "\" contenteditable=\"true\">" + text + "</div>");
-    $("#node_" + id).draggable();
+    $("#node_" + id).draggable({
+      stop: function(event, ui) {
+        console.log("Dropped:" + ui.helper.position());
+      }
+    });
   }
 
   function storeNode(id) {
