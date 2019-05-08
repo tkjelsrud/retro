@@ -19,8 +19,8 @@ class TestRetroIntegration(unittest.TestCase):
             req = requests.post(baseURL + "/node/0", json=dJson)
             #response = request.urlopen(req)
             #res = response.read()
-            if req.status_code() != 200:
-                assert False, "Integration test POST/CREATE failed response code" + str(req.status_code())
+            if req.status_code != 200:
+                assert False, "Integration test POST/CREATE failed response code" + str(req.status_code
 
             js = req.json() # json.loads(res)
 
