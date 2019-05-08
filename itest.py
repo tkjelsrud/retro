@@ -31,7 +31,7 @@ class TestRetroIntegration(unittest.TestCase):
 
             testId = int(js['id'])
             skey = js['skey']
-            print("Created " + str(testId))
+            #print("Created " + str(testId))
 
         except Exception as error:
                 if 'js' in locals():
@@ -62,7 +62,7 @@ class TestRetroIntegration(unittest.TestCase):
 
             if r.status_code != 200:
                 assert False, "Integration test LOAD failed response code" + str(r.status_code)
-
+            
             js = r.json()
 
             self.assertTrue(int(js['result']) == 200)

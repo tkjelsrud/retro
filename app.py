@@ -74,7 +74,7 @@ def node(n_id):
 
             return make_response(jsonify({'result': 200, 'update': str(upd), 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
         except Exception as error:
-            db.session.rollback()
+            #db.session.rollback()
             return make_response(jsonify({'result': 500, 'message': 'Error on create or update. ' + str(error)}), 200)
         finally:
             db.session.close()
