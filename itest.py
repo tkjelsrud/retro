@@ -1,5 +1,6 @@
 import unittest
-from urllib import requests, parse
+#from urllib import requests, parse
+import requests
 import json
 
 # Integration test cases
@@ -41,11 +42,12 @@ class TestRetroIntegration(unittest.TestCase):
         # Update
         try:
             dJson = {'type':'board', 'json': '{"content":"v2"}'}
-            req = request.Request(baseURL + "/node/" + str(testId) + "?s=" + skey, json=dJson, method='POST')
-            response = request.urlopen(req)
-            res = response.read()
 
-            js = json.loads(res)
+            req = requests.post(baseURL + "/node/" + str(testId) + "?s=" + skey, json=dJson)
+            if req.status_code != 200:
+                assert False, "Integration test POST/CREATE failed response code" + str(req.status_code)
+
+            js = req.json() #json.loads(res)
 
             self.assertTrue(int(js['result']) == 200)
             self.assertTrue(js['update'] == "True")
@@ -56,15 +58,18 @@ class TestRetroIntegration(unittest.TestCase):
         #
         # Load
         try:
-            with request.urlopen(baseURL + "/node/" + str(testId) + "?s=" + skey) as response:
-                res = response.read()
-                js = json.loads(res)
+            r = requests.get(baseURL + "/node/" + str(testId) + "?s=" + skey)
 
-                self.assertTrue(int(js['result']) == 200)
+            if r.status_code != 200:
+                assert False, "Integration test LOAD failed response code" + str(r.status_code)
 
-                innerjs = js['json']
+            js = r.json()
 
-                self.assertTrue(innerjs['content'] == "v2") # Check that update was done
+            self.assertTrue(int(js['result']) == 200)
+
+            innerjs = js['json']
+
+            self.assertTrue(innerjs['content'] == "v2") # Check that update was done
 
         except Exception as error:
             print(js)
@@ -72,12 +77,13 @@ class TestRetroIntegration(unittest.TestCase):
 
         # Create child
         try:
-            data = parse.urlencode({'pid': testId, 'type':'note', 'json': '{}', 'skey': skey}).encode()
-            req = request.Request(baseURL + "/node/0", data=data, method='POST') # this will make the method "POST"
-            response = request.urlopen(req)
-            res = response.read()
+            dJson = {'pid': testId, 'type':'note', 'json': '{}', 'skey': skey}
 
-            js = json.loads(res)
+            req = requests.post(baseURL + "/node/" + str(testId) + "?s=" + skey, json=dJson)
+            if req.status_code != 200:
+                assert False, "Integration test POST/CREATE failed response code" + str(req.status_code)
+
+            js = req.json()
 
             self.assertTrue(int(js['result']) == 200)
             self.assertTrue(int(js['id']) > 0)
@@ -86,15 +92,18 @@ class TestRetroIntegration(unittest.TestCase):
                 assert False, "Integration test POST CHILD failed with exception " + str(error)
 
         try:
-            with request.urlopen(baseURL + "/node/" + str(testId) + "/children?s=" + skey) as response:
-                res = response.read()
-                js = json.loads(res)
+            r = requests.get(baseURL + "/node/" + str(testId) + "/children?s=" + skey)
 
-                self.assertTrue(int(js['result']) == 200)
-                self.assertTrue(isinstance(js['json'], list))
-                self.assertTrue(len(js['json']) == 1)
-                self.assertTrue(int(js['json'][0]['pid']) > 0)
-                self.assertTrue(int(js['json'][0]['pid']) == testId)
+            if r.status_code != 200:
+                assert False, "Integration test LOAD children failed response code" + str(r.status_code)
+
+            js = r.json()
+
+            self.assertTrue(int(js['result']) == 200)
+            self.assertTrue(isinstance(js['json'], list))
+            self.assertTrue(len(js['json']) == 1)
+            self.assertTrue(int(js['json'][0]['pid']) > 0)
+            self.assertTrue(int(js['json'][0]['pid']) == testId)
 
         except Exception as error:
                 print(js)
