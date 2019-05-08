@@ -143,12 +143,7 @@
       if(res == 200) {
         cList = data['json'];
         for(i = 0; i < cList.length; i++) {
-          //
-          // TODO: Check if update, what changed, animate, etc
-          gNodeData[cList[i]['id']] = cList[i];
-          //
-          // TODO: Check if already created
-          drawNode(cList[i]);
+          createOrUpdateNode(cList[i]['id'], cList[i]['json'])
         }
       }
       else {
@@ -156,6 +151,19 @@
         console.log(data);
       }
     });
+  }
+
+  function createOrUpdateNode(id, json) {
+    if(id in gNodeData) {
+      // UPDATE, TODO: check what has changed, poor implementation now
+      gNodeData[id] = cList[i];
+      $("#node_" + id).remove();
+      drawNode(json);
+    }
+    else {
+      gNodeData[id] = cList[i];
+      drawNode(json);
+    }
   }
 
   function drawNode(json) {
@@ -197,6 +205,11 @@
     });
   }
 
+  function tick() {
+    loadContextChildren($.urlParam('c'), $.urlParam('k');
+    setTimeout(function() {tick();}, 1000);
+  }
+
 
   // INIT
   if(!loadAndValidateUser()) {
@@ -205,6 +218,7 @@
   else {
     if(hasContextKey()) {
       loadContext();
+      tick();
     }
     else {
       setView('setContext');
