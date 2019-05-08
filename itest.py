@@ -1,5 +1,5 @@
 import unittest
-from urllib import request, parse
+from urllib import requests, parse
 import json
 
 # Integration test cases
@@ -15,11 +15,13 @@ class TestRetroIntegration(unittest.TestCase):
         try:
             dJson = {'type':'group', 'json': '{"content":"v1"}'}
             #headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-            req = request.post(baseURL + "/node/0", json=dJson)
-            response = request.urlopen(req)
-            res = response.read()
+            req = requests.post(baseURL + "/node/0", json=dJson)
+            #response = request.urlopen(req)
+            #res = response.read()
+            if req.status_code() != 200:
+                assert False, "Integration test POST/CREATE failed response code" + str(req.status_code())
 
-            js = json.loads(res)
+            js = req.json() # json.loads(res)
 
             self.assertTrue(int(js['result']) == 200)
             self.assertTrue(int(js['id']) > 0)
