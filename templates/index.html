@@ -94,6 +94,10 @@
     return localStorage.getItem("user.key");
   }
 
+  function getPid() {
+    return $.urlParam('c')
+  }
+
   function getCtxKey() {
     return $.urlParam('k')
   }
@@ -170,7 +174,7 @@
     $.ajax({
       type: "POST",
       url: "/retro/node/0?s=" + getCtxKey(),
-      data: JSON.stringify({'json': {}}),
+      data: JSON.stringify({'pid': getPid(), 'type': 'note', 'json': {}}),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(data) {
