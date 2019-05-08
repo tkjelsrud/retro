@@ -24,24 +24,29 @@ def recodeJson(jStr):
 def node(n_id):
     if request.method == "POST":
         try:
-            print(request.__dict__)
+            #
+            # TODO migrate to json
+            reqJson = request.get_json()
+            #
+            #print(request.__dict__)
             pid = None
             typ = None
             upd = False
 
-            if 'type' in request.form:
-                typ = request.form['type']
+            if 'type' in reqJson:
+                typ = reqJson['type']
 
-            jso = request.form['json']
+            # Inner JSON
+            jso = reqJson['json']
 
-            if 'pid' in request.form:
-                pid = int(request.form['pid'])
+            if 'pid' in reqJson:
+                pid = int(reqJson['pid'])
 
             skey = hashlib.md5(str(datetime.datetime.now()).encode("utf-8")).hexdigest()[16:32]
             if 's' in request.args:
                 skey = request.args['s']
-            if 'skey' in request.form:
-                skey = request.form['skey']
+            if 'skey' in reqJson:
+                skey = reqJson['skey']
 
 
             if n_id > 0:
@@ -68,39 +73,11 @@ def node(n_id):
         finally:
             db.session.close()
 
-    if request.method == "PUT":
-        try:
-            n = DbObject.query.filter_by(id=n_id).one()
-
-            if requireKey:
-                if 's' not in request.args or request.args['s'] != n.skey:
-                    return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)
-
-            if 'json' in request.form:
-                n.json = request.form['json']
-
-            if 'pid' in request.form:
-                n.pid = int(request.form['pid'])
-
-            db.session.commit()
-
-            n = DbObject.query.filter_by(id=n_id).one() # Get again to get new timestamp (?)
-
-            db.session.close()
-
-            return make_response(jsonify({'result': 200, 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
-
-        except Exception as error:
-            db.session.rollback()
-            db.session.close()
-            return make_response(jsonify({'result': 500, 'message': 'Error or missing one of required input pid, type, json. ' + str(error)}), 200)
-
-
     if request.method == "GET":
         try:
             n = DbObject.query.filter_by(id=n_id).one()
             db.session.close()
-
+            
             if requireKey:
                 if 's' not in request.args or request.args['s'] != n.skey:
                     return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)

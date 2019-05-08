@@ -13,8 +13,9 @@ class TestRetroIntegration(unittest.TestCase):
         skey = ''
 
         try:
-            data = parse.urlencode({'type':'group', 'json': '{"content":"v1"}'}).encode()
-            req = request.Request(baseURL + "/node/0", data=data, method='POST')
+            dJson = {'type':'group', 'json': '{"content":"v1"}'}
+            #data = parse.urlencode({'type':'group', 'json': '{"content":"v1"}'}).encode()
+            req = request.Request(baseURL + "/node/0", json=dJson, method='POST')
             response = request.urlopen(req)
             res = response.read()
 
@@ -36,8 +37,8 @@ class TestRetroIntegration(unittest.TestCase):
         #
         # Update
         try:
-            data = parse.urlencode({'type':'board', 'json': '{"content":"v2"}'}).encode()
-            req = request.Request(baseURL + "/node/" + str(testId) + "?s=" + skey, data=data, method='POST')
+            dJson = {'type':'board', 'json': '{"content":"v2"}'}
+            req = request.Request(baseURL + "/node/" + str(testId) + "?s=" + skey, json=dJson, method='POST')
             response = request.urlopen(req)
             res = response.read()
 
