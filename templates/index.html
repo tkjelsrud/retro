@@ -167,13 +167,17 @@
                 'top': json['json']['pos'].top,
                 'left': json['json']['pos'].left
           }, 200);
+          console.log(id + " pos changed");
+          gNodeData[id]['json']['pos'] = json['json']['pos'];
         }
         if(changes[i] == "text") {
+          console.log(id + " text changed");
           $('#node_' + id).text(json['json']['text']);
+          gNodeData[id]['json']['text'] = json['json']['text'];
         }
       }
 
-      gNodeData[id] = json;
+      //gNodeData[id] = json;
       //$("#node_" + id).remove();
       //drawNode(json);
     }
