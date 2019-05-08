@@ -80,6 +80,11 @@ def node(n_id):
                     return make_response(jsonify({'result': 404, 'message': 'Got node to update but not found'}), 200)
             else:
                 # New
+                if isinstance(jso, dict):
+                    n.json = json.dumps(jso)
+                elif isinstance(jso, str):
+                    n.json = jso
+                
                 n = DbObject(pid=pid, type=typ, json=jso, skey=skey)
                 session.add(n)
                 session.commit()
