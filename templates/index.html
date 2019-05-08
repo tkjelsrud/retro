@@ -143,7 +143,7 @@
       if(res == 200) {
         cList = data['json'];
         for(i = 0; i < cList.length; i++) {
-          createOrUpdateNode(cList[i]['id'], cList[i]['json'])
+          createOrUpdateNode(cList[i]['id'], cList[i])
         }
       }
       else {
@@ -178,6 +178,9 @@
     $("#node_" + id).draggable({
       stop: function(event, ui) {
         console.log("Dropped:" + ui.helper.position());
+        // TODO: find the node, translate to real ID, store change, cleanup
+        //gNodeData[id]
+        //storeNode
       }
     });
   }
