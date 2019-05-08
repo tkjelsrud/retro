@@ -16,8 +16,6 @@ db = SQLAlchemy(app)
 appRoot = "/retro"
 requireKey = True
 
-db.session.connect()
-
 # Always returning OK 200 to avoid default sever error pages
 
 def recodeJson(jStr):
