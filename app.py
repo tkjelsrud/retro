@@ -63,7 +63,7 @@ def node(n_id):
 
             if n_id > 0:
                 # Probable update
-                n = session.query(DbObject).filter_by(DbObject.id==n_id, DbObject.skey==skey).one()
+                n = session.query(DbObject).filter(DbObject.id==n_id, DbObject.skey==skey).one()
                 #n = DbObject.query.filter_by(id=n_id, skey=skey).one()
 
                 if n:
@@ -93,7 +93,7 @@ def node(n_id):
 
     if request.method == "GET":
         try:
-            n = session.query(DbObject).filter_by(DbObject.id==n_id).one()
+            n = session.query(DbObject).filter(DbObject.id==n_id).one()
             #n = DbObject.query.filter_by(id=n_id).one()
 
             if requireKey:
@@ -134,9 +134,9 @@ def children(n_id):
 
                 key = request.args['s']
 
-                cList = session.query(DbObject).filter_by(DbObject.pid==n_id, DbObject.skey==key)
+                cList = session.query(DbObject).filter(DbObject.pid==n_id, DbObject.skey==key)
             else:
-                cList = session.query(DbObject).filter_by(DbObject.pid==n_id)
+                cList = session.query(DbObject).filter(DbObject.pid==n_id)
 
             if cList:
                 dList = []
