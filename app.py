@@ -60,6 +60,8 @@ def node(n_id):
             if 'skey' in reqJson:
                 skey = reqJson['skey']
 
+            if isinstance(jso, dict):
+                jso = json.dumps(jso)
 
             if n_id > 0:
                 # Probable update
@@ -68,11 +70,7 @@ def node(n_id):
 
                 if n:
                     # Update, only support changing the json for now?
-                    if isinstance(jso, dict):
-                        n.json = json.dumps(jso)
-                    elif isinstance(jso, str):
-                        n.json = jso
-
+                    n.json = jso
                     session.commit()
 
                     upd = True
@@ -80,11 +78,6 @@ def node(n_id):
                     return make_response(jsonify({'result': 404, 'message': 'Got node to update but not found'}), 200)
             else:
                 # New
-                if isinstance(jso, dict):
-                    n.json = json.dumps(jso)
-                elif isinstance(jso, str):
-                    n.json = jso
-                
                 n = DbObject(pid=pid, type=typ, json=jso, skey=skey)
                 session.add(n)
                 session.commit()
