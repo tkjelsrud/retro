@@ -78,8 +78,8 @@ class TestRetroIntegration(unittest.TestCase):
         # Create child
         try:
             dJson = {'pid': testId, 'type':'note', 'json': '{}', 'skey': skey}
+            req = requests.post(baseURL + "/node/0?s=" + skey, json=dJson)
 
-            req = requests.post(baseURL + "/node/" + str(testId) + "?s=" + skey, json=dJson)
             if req.status_code != 200:
                 assert False, "Integration test POST/CREATE failed response code" + str(req.status_code)
 
@@ -107,4 +107,4 @@ class TestRetroIntegration(unittest.TestCase):
 
         except Exception as error:
                 print(js)
-                assert False, "Integration test failed with exception " + str(error)
+                assert False, "Integration test LOAD children failed with exception " + str(error)

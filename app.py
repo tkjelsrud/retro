@@ -77,7 +77,7 @@ def node(n_id):
         try:
             n = DbObject.query.filter_by(id=n_id).one()
             db.session.close()
-            
+
             if requireKey:
                 if 's' not in request.args or request.args['s'] != n.skey:
                     return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)
@@ -129,8 +129,7 @@ def children(n_id):
 
         except Exception as error:
             db.session.rollback()
-            db.session.close()
-            return make_response(jsonify({'result': 500, 'message': 'Error in loading children. ' + str(error)}), 200)
+            return make_response(jsonify({'result': 500, 'message': 'Error in loading children for ' + str(n_id) + ": " + str(error)}), 200)
 
         finally:
             db.session.close()
