@@ -15,8 +15,6 @@ app.config['SQLALCHEMY_POOL_RECYCLE'] = 280
 from sqlalchemy import create_engine
 engine = create_engine(DbSetup.getUri())
 
-Base.metadata.create_all(engine)
-
 from sqlalchemy.orm import sessionmaker
 Session = sessionmaker(bind=engine, autoflush=False)
 session = Session()
