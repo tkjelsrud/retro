@@ -10,8 +10,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_POOL_SIZE'] = 100
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 280
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {autoflush=False}
 
 db = SQLAlchemy(app)
+
+#autoflush=False
 
 appRoot = "/retro"
 requireKey = True
