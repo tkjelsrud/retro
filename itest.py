@@ -14,8 +14,8 @@ class TestRetroIntegration(unittest.TestCase):
 
         try:
             dJson = {'type':'group', 'json': '{"content":"v1"}'}
-            #data = parse.urlencode({'type':'group', 'json': '{"content":"v1"}'}).encode()
-            req = request.Request(baseURL + "/node/0", json=dJson, method='POST')
+            #headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+            req = requests.post(baseURL + "/node/0", json=dJson)
             response = request.urlopen(req)
             res = response.read()
 
