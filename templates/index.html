@@ -167,11 +167,11 @@
                 'top': json['json']['pos'].top,
                 'left': json['json']['pos'].left
           }, 200);
-          console.log(id + " pos changed");
+          console.log(id + " pos changed, FROM: " + gNodeData[id]['json']['pos'] + " TO:" + json['json']['pos']);
           gNodeData[id]['json']['pos'] = json['json']['pos'];
         }
         if(changes[i] == "text") {
-          console.log(id + " text changed");
+          console.log(id + " text changed, FROM:" + gNodeData[id]['json']['text'] + " TO:" + json['json']['text']);
           $('#node_' + id).text(json['json']['text']);
           gNodeData[id]['json']['text'] = json['json']['text'];
         }
