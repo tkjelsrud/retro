@@ -41,7 +41,7 @@
 <div id="context">
   <div class="title">Context</div>
   <span id="debug">...</span>
-  <div id="toolbar">This is toolbar div</div>
+  <div id="toolbar">This is toolbar div <a href="#" onclick="void(addBlankNode());">New note</a></div>
   <div id="board">This is the board div</div>
   <div id="trash">This is the trash div</div>
 </div>
@@ -166,6 +166,23 @@
     }
   }
 
+  function addBlankNode() {
+    $.ajax({
+      type: "POST",
+      url: "/retro/node/0?s=" + getCtxKey(),
+      data: JSON.stringify({'json': {}}}),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data) {
+        console.log(result);
+      },
+      failure: function(errMsg) {
+          alert(errMsg);
+          console.log(errMsg);
+      }
+    });
+  }
+
   function drawNode(json) {
     id = ("id" in json ? json["id"] : "0");
     nClass = ("class" in json["json"] ? json["json"]["class"] : "node");
@@ -177,10 +194,17 @@
 
     $("#node_" + id).draggable({
       stop: function(event, ui) {
-        console.log("Dropped:" + ui.helper.position());
+        //console.log("Dropped:" + ui.helper.position());
+        cid = this.id.split("_")[1];
+
+        gNodeData[cid]["json"]["pos"] = ui.helper.position();
+        storeNode(cid);
+
         // TODO: find the node, translate to real ID, store change, cleanup
-        //gNodeData[id]
+        //gNodeData[id
         //storeNode
+
+        //createOrUpdateNode
       }
     });
   }
