@@ -49,6 +49,8 @@
   //             + (new Date()).getTime().toString(36).substring(3, 11);
   //$('#uuid').val(uniqueId);
 
+  gNodeData = new Array();
+
   $.urlParam = function (name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)')
                         .exec(window.location.search);
@@ -137,6 +139,7 @@
       if(res == 200) {
         cList = data['json'];
         for(i = 0; i < cList.length; i++) {
+          gNodeData[cList[i]['id']] = cList[i];
           drawNode(cList[i]);
         }
       }
@@ -149,8 +152,8 @@
 
   function drawNode(json) {
     id = ("id" in json ? json["id"] : "0");
-    nClass = ("class" in json ? json["class"] : "node");
-    text = ("text" in json ? json["text"] : "Write here...");
+    nClass = ("class" in json["json"] ? json["json"]["class"] : "node");
+    text = ("text" in json["json"] ? json["json"]["text"] : "Write here...");
     $("#board").append("<div id=\"node_" + id + "\" class=\"" + nClass + "\" title=\"" + JSON.stringify(json) + "\" contenteditable=\"true\">" + text + "</div>");
   }
 
