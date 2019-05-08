@@ -8,6 +8,8 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = DbSetup.getUri()
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SQLALCHEMY_POOL_SIZE'] = 100
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 280
 
 db = SQLAlchemy(app)
 
@@ -80,7 +82,6 @@ def node(n_id):
     if request.method == "GET":
         try:
             n = DbObject.query.filter_by(id=n_id).one()
-            db.session.close()
 
             if requireKey:
                 if 's' not in request.args or request.args['s'] != n.skey:
@@ -92,8 +93,10 @@ def node(n_id):
 
         except Exception as error:
             db.session.rollback()
-            db.session.close()
+
             return make_response(jsonify({'result': 500, 'message': 'Unable to get node ' + str(error)}), 200)
+        finally:
+            db.session.close()
 
     if request.method == "DELETE":
         try:
@@ -104,8 +107,9 @@ def node(n_id):
             return make_response(jsonify({'result': 200, 'id': n_id}), 200)
         except Exception as error:
             db.session.rollback()
-            db.session.close()
             return make_response(jsonify({'result': 500, 'message': 'Unable to delete node' + str(error)}), 200)
+        finally:
+            db.session.close()
 
 @app.route(appRoot + "/node/<int:n_id>/children", methods=["GET"])
 def children(n_id):
@@ -134,7 +138,6 @@ def children(n_id):
         except Exception as error:
             db.session.rollback()
             return make_response(jsonify({'result': 500, 'message': 'Error in loading children for ' + str(n_id) + ": " + str(error)}), 200)
-
         finally:
             db.session.close()
 
