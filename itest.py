@@ -15,7 +15,7 @@ class TestRetroIntegration(unittest.TestCase):
         try:
             dJson = {'type':'group', 'json': '{"content":"v1"}'}
             #headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-            req = requests.post(baseURL + "/node/0", json=dJson)
+            req = request.post(baseURL + "/node/0", json=dJson)
             response = request.urlopen(req)
             res = response.read()
 
@@ -31,7 +31,8 @@ class TestRetroIntegration(unittest.TestCase):
             print("Created " + str(testId))
 
         except Exception as error:
-                print(js)
+                if 'js' in locals():
+                    print(js)
                 assert False, "Integration test POST/CREATE failed with exception " + str(error)
 
         #
