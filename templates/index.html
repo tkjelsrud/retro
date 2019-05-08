@@ -162,6 +162,8 @@
     id = ("id" in json ? json["id"] : "0");
     nClass = ("class" in json["json"] ? json["json"]["class"] : "node");
     text = ("text" in json["json"] ? json["json"]["text"] : "Write here...");
+    pos = ("pos" in json["json"] ? json["json"]["pos"] : {left: 100, top: 100});
+
     $("#board").append("<div id=\"node_" + id + "\" class=\"" + nClass + "\" title=\"" + JSON.stringify(json) + "\" contenteditable=\"true\">" + text + "</div>");
     $("#node_" + id).draggable({
       stop: function(event, ui) {
@@ -175,7 +177,7 @@
     nClass = $(node).attr('class');
     text = $(node).text();
     created = getUserKey();
-    postJson = {'json': {'class': nClass, 'text': text, 'user': created}};
+    postJson = {'json': {'class': nClass, 'text': text, 'user': created, 'pos': $(node).position()}};
 
     $.ajax({
       type: "POST",
