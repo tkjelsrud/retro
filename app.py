@@ -55,7 +55,7 @@ def node(n_id):
 
                 if n:
                     # Update, only support changing the json for now?
-                    n.json = jso
+                    n.json = json.dumps(jso)
                     upd = True
                 else:
                     return make_response(jsonify({'result': 404, 'message': 'Got node to update but not found'}), 200)
