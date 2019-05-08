@@ -156,12 +156,12 @@
   function createOrUpdateNode(id, json) {
     if(id in gNodeData) {
       // UPDATE, TODO: check what has changed, poor implementation now
-      gNodeData[id] = cList[i];
+      gNodeData[id] = json;
       $("#node_" + id).remove();
       drawNode(json);
     }
     else {
-      gNodeData[id] = cList[i];
+      gNodeData[id] = cjson;
       drawNode(json);
     }
   }
@@ -206,7 +206,7 @@
   }
 
   function tick() {
-    loadContextChildren($.urlParam('c'), $.urlParam('k');
+    loadContextChildren($.urlParam('c'), $.urlParam('k'));
     setTimeout(function() {tick();}, 1000);
   }
 
