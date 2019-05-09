@@ -27,7 +27,7 @@
   <div class="title">Set user</div>
   <span class="label">Name</span> <input id="uname" type="text" name="uname" />
   <span class="label">UUID</span> <input id="uuid" type="text" name="uuid" />
-  <input type="button" value="OK" />
+  <input type="button" value="OK" onclick="void(setUser());" />
 </div>
 <div id="setContext">
   <div class="title">Enter context</div>
@@ -75,9 +75,19 @@
     //
   }
 
-  function setUser(name, key) {
-    localStorage.setItem("user.name", name);
-    localStorage.setItem("user.key", key);
+  function setUser() {
+    name = $('#uname').val().trim();
+    key = $('#uuid').val().trim();
+
+    if(name != "" && key != "") {
+      localStorage.setItem("user.name", name);
+      localStorage.setItem("user.key", key);
+      setView("setContext");
+      
+      return true;
+    }
+
+    return false;
   }
 
   function loadAndValidateUser() {
