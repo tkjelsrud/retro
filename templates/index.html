@@ -202,9 +202,11 @@
     oldJson = gNodeData[id];
     //if(oldJson['type'] != newJson['type'])
     //  changes.push("type");
-    if(oldJson["json"]['pos'] != newJson["json"]['pos'])
+    if(parseInt(oldJson["json"]['pos'].left) != parseInt(newJson["json"]['pos'].left))
       changes.push("pos");
-    if(oldJson["json"]['text'] != newJson["json"]['pos'])
+      if(parseInt(oldJson["json"]['pos'].top) != parseInt(newJson["json"]['pos'].top))
+        changes.push("pos");
+    if(trim(oldJson["json"]['text']).localeCompare(trim(newJson["json"]['text'])) != 0)
         changes.push("text");
 
     return changes;
