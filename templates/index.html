@@ -15,8 +15,9 @@
     background-color: #DDD;
   }
   .node {
-    position: relative;
+    position: absolute;
     margin: 5px;
+    width: 100px;
     height: 30px;
     border: 1px solid grey;
     background-color: #f2e088;
@@ -248,7 +249,7 @@
     $("#node_" + id).draggable({
       //grid: [10, 10],
       stop: function(event, ui) {
-        //console.log("Dropped:" + ui.helper.position());
+        console.log("Dropped:" + ui.helper.position());
         cid = this.id.split("_")[1];
 
         pos = ui.helper.position();
