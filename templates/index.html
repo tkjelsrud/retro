@@ -83,7 +83,7 @@
       localStorage.setItem("user.name", name);
       localStorage.setItem("user.key", key);
       setView("setContext");
-      
+
       return true;
     }
 
@@ -177,7 +177,7 @@
                 'top': json['json']['pos'].top,
                 'left': json['json']['pos'].left
           }, 200);
-          console.log(id + " pos changed, FROM: " + gNodeData[id]['json']['pos'] + " TO:" + json['json']['pos']);
+          console.log(id + " pos changed, FROM: " + JSON.stringify(gNodeData[id]['json']['pos']) + " TO:" + JSON.stringify(json['json']['pos']));
           gNodeData[id]['json']['pos'] = json['json']['pos'];
         }
         if(changes[i] == "text") {
@@ -237,6 +237,7 @@
     $("#node_" + id).offset(pos);
 
     $("#node_" + id).draggable({
+      grid: [10, 10],
       stop: function(event, ui) {
         //console.log("Dropped:" + ui.helper.position());
         cid = this.id.split("_")[1];
@@ -258,7 +259,10 @@
     nClass = $(node).attr('class');
     text = $(node).text();
     created = getUserKey();
-    postJson = {'json': {'class': nClass, 'text': text, 'user': created, 'pos': $(node).offset()}};
+    pos = {left: parseInt($(node).offset().left), top: parseInt($(node).offset().top)};
+
+
+    postJson = {'json': {'class': nClass, 'text': text, 'user': created, 'pos': pos}};
 
     $.ajax({
       type: "POST",
@@ -280,6 +284,19 @@
     loadContextChildren($.urlParam('c'), $.urlParam('k'));
     setTimeout(function() {tick();}, 1000);
   }
+
+  // Functions to slow down network traffic when window is not in use (idle)
+  $(window).focus(function() {
+    // Window is in focus
+    //if (!interval_id)
+    //  interval_id = setInterval(hard_work, 1000);
+  });
+
+  $(window).blur(function() {
+    // Not in focus
+    //clearInterval(interval_id);
+    //interval_id = 0;
+  });
 
 
   // INIT
