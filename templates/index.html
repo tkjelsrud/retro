@@ -249,7 +249,7 @@
     $("#node_" + id).draggable({
       //grid: [10, 10],
       stop: function(event, ui) {
-        console.log("Dropped:" + ui.helper.position().left + " " ui.helper.position().top);
+        console.log("Dropped:" + ui.helper.position().left + " " + ui.helper.position().top);
         cid = this.id.split("_")[1];
 
         pos = ui.helper.position();
