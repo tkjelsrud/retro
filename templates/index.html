@@ -142,12 +142,12 @@
         // TODO: Load the elements
         loadContextChildren(ctx, key);
 
-        return true;
+        setView('context');
+        tick();
       }
       else {
         alert('Something failed - see console for response');
         console.log(data);
-        return false;
       }
     });
   }
@@ -312,10 +312,7 @@
   }
   else {
     if(hasContextKey()) {
-      if(loadContext()) {
-        setView('context');
-        tick();
-      }
+      loadContext();  // Sets view and starts tick loop
     }
     else {
       setView('setContext');
