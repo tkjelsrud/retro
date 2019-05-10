@@ -9,7 +9,7 @@
 
   <style>
   #board {
-    width: 100%;
+    width: 800px;
     height: 600px;
     background-color: #DDD;
   }
@@ -210,7 +210,7 @@
     //  changes.push("type");
     if(parseInt(oldJson["json"]['pos'].left) != parseInt(newJson["json"]['pos'].left))
       changes.push("pos");
-      if(parseInt(oldJson["json"]['pos'].top) != parseInt(newJson["json"]['pos'].top))
+    else if(parseInt(oldJson["json"]['pos'].top) != parseInt(newJson["json"]['pos'].top))
         changes.push("pos");
     if(oldJson["json"]['text'].trim().localeCompare(newJson["json"]['text'].trim()) != 0)
         changes.push("text");
@@ -293,7 +293,7 @@
   function tick() {
     loadContextChildren($.urlParam('c'), $.urlParam('k'));
     console.log("Tick");
-    setTimeout(function() {tick();}, 5000);
+    setTimeout(function() {tick();}, 1000);
   }
 
 /*
