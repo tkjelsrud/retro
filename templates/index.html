@@ -140,7 +140,7 @@
         loadContextChildren(ctx, key);
 
         setView('context');
-        //tick();
+        tick();
       }
       else {
         console.log('Error in loadContext');
@@ -158,11 +158,11 @@
       res = data['result'];
       if(res == 200) {
         cList = data['json'];
-        console.log(cList);
-          console.log(cList.length);
-          for(i = 0; i < cList.length; i++) {
-            createOrUpdateNode(cList[i]['id'], cList[i])
-          }
+        //console.log(cList);
+        //console.log(cList.length);
+        for(i = 0; i < cList.length; i++) {
+          createOrUpdateNode(cList[i]['id'], cList[i])
+        }
       }
       else {
         console.log('Error in loadContextChildren');
@@ -175,10 +175,10 @@
     if(id in gNodeData) {
       // UPDATE, TODO: check what has changed, poor implementation now
       changes = nodeChangeType(id, json);
-      console.log("changes");
-      console.log(changes);
+      //console.log("changes");
+      //console.log(changes);
       for(j = 0; j < changes.length; j++) {
-        console.log("change " + j + " " + changes[j]);
+        //console.log("change " + j + " " + changes[j]);
         if(changes[j] == "pos") {
           //console.log(json['json']['pos']);
           $('#node_' + id).animate({
@@ -292,7 +292,7 @@
 
   function tick() {
     loadContextChildren($.urlParam('c'), $.urlParam('k'));
-    console.log("Tick");
+    //console.log("Tick");
     setTimeout(function() {tick();}, 1000);
   }
 
