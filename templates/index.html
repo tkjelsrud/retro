@@ -289,7 +289,8 @@
 
   function tick() {
     loadContextChildren($.urlParam('c'), $.urlParam('k'));
-    setTimeout(function() {tick();}, 1000);
+    console.log("Tick");
+    setTimeout(function() {tick();}, 5000);
   }
 
 /*
