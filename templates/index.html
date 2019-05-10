@@ -178,6 +178,7 @@
       changes = nodeChangeType(id, json);
       for(i = 0; i < changes.length; i++) {
         if(changes[i] == "pos") {
+          console.log(json['json']['pos'].top + " " + son['json']['pos'].left);
           $('#node_' + id).animate({
                 'top': json['json']['pos'].top,
                 'left': json['json']['pos'].left
