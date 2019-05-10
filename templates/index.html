@@ -142,11 +142,12 @@
         // TODO: Load the elements
         loadContextChildren(ctx, key);
 
-        setView('context');
+        return true;
       }
       else {
         alert('Something failed - see console for response');
         console.log(data);
+        return false;
       }
     });
   }
@@ -243,7 +244,7 @@
     $("#node_" + id).offset(pos);
 
     $("#node_" + id).draggable({
-      grid: [10, 10],
+      //grid: [10, 10],
       stop: function(event, ui) {
         //console.log("Dropped:" + ui.helper.position());
         cid = this.id.split("_")[1];
@@ -311,8 +312,10 @@
   }
   else {
     if(hasContextKey()) {
-      loadContext();
-      tick();
+      if(loadContext()) {
+        setView('context');
+        tick();
+      }
     }
     else {
       setView('setContext');
