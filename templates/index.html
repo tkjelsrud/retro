@@ -158,10 +158,11 @@
       res = data['result'];
       if(res == 200) {
         cList = data['json'];
-        //console.log(cList);
-        for(i = 0; i < cList.length; i++) {
-          createOrUpdateNode(cList[i]['id'], cList[i])
-        }
+        console.log(cList);
+          console.log(cList.length);
+          for(i = 0; i < cList.length; i++) {
+            createOrUpdateNode(cList[i]['id'], cList[i])
+          }
       }
       else {
         console.log('Error in loadContextChildren');
@@ -176,19 +177,19 @@
       changes = nodeChangeType(id, json);
       console.log("changes");
       console.log(changes);
-      for(i = 0; i < changes.length; i++) {
-        console.log("change " + i + " " + changes[i]);
-        if(changes[i] == "pos") {
-          console.log(json['json']['pos']);
-          //$('#node_' + id).animate({
-          //  'top': (json['json']['pos']).top,
-          //  'left': (json['json']['pos']).left
-          //}, 200);
-          $('#node_' + id).offset(json['json']['pos']);
+      for(j = 0; j < changes.length; j++) {
+        console.log("change " + j + " " + changes[j]);
+        if(changes[j] == "pos") {
+          //console.log(json['json']['pos']);
+          $('#node_' + id).animate({
+            'top': (json['json']['pos']).top,
+            'left': (json['json']['pos']).left
+          }, 200);
+          //$('#node_' + id).offset(json['json']['pos']);
           console.log(id + " pos changed, FROM: " + JSON.stringify(gNodeData[id]['json']['pos']) + " TO:" + JSON.stringify(json['json']['pos']));
           gNodeData[id]['json']['pos'] = json['json']['pos'];
         }
-        if(changes[i] == "text") {
+        if(changes[j] == "text") {
           console.log(id + " text changed, FROM:" + gNodeData[id]['json']['text'] + " TO:" + json['json']['text']);
           $('#node_' + id).text(json['json']['text']);
           gNodeData[id]['json']['text'] = json['json']['text'];
