@@ -143,7 +143,7 @@
         //tick();
       }
       else {
-        alert('Something failed - see console for response');
+        console.log('Error in loadContext');
         console.log(data);
       }
     });
@@ -164,7 +164,7 @@
         }
       }
       else {
-        alert('Something failed - see console for response');
+        console.log('Error in loadContextChildren');
         console.log(data);
       }
     });
@@ -174,7 +174,10 @@
     if(id in gNodeData) {
       // UPDATE, TODO: check what has changed, poor implementation now
       changes = nodeChangeType(id, json);
+      console.log("changes");
+      console.log(changes);
       for(i = 0; i < changes.length; i++) {
+        console.log("change " + i + " " + changes[i]);
         if(changes[i] == "pos") {
           console.log(json['json']['pos']);
           //$('#node_' + id).animate({
@@ -193,6 +196,7 @@
       }
     }
     else {
+      console.log("new");
       gNodeData[id] = json;
       drawNode(json);
     }
