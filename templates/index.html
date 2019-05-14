@@ -194,7 +194,7 @@
     seq = null;
     upd = false;
 
-    if(!"users" in gContext["json"] || gContext["json"]["users"].length == 0) {
+    if(!("users" in gContext["json"]) || gContext["json"]["users"].length == 0) {
       gContext["json"]["users"] = new Array();
       // First user added is always the creator ("admin")
     }
