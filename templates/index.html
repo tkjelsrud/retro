@@ -296,7 +296,7 @@
     $.ajax({
       type: "POST",
       url: "/retro/node/0?s=" + getCtxKey(),
-      data: JSON.stringify({'pid': getPid(), 'type': 'note', 'json': {'color': getUserColor()}}),
+      data: JSON.stringify({'pid': getPid(), 'type': 'note', 'json': {'text': '', 'color': getUserColor(), 'pos': {left: 100, top: 100}}}),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(data) {
