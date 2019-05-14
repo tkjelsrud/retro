@@ -59,6 +59,7 @@
   tickSel = 'high';
 
   gNodeData = new Array();
+  gContext = null;
 
   $.urlParam = function (name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)')
@@ -105,6 +106,9 @@
     return false;
   }
 
+  function getUserName() {
+    return localStorage.getItem("user.name");
+  }
   function getUserKey() {
     return localStorage.getItem("user.key");
   }
@@ -138,7 +142,14 @@
       if(res == 200) {
         // Validate board
         // TODO: are we admin - do we have admins? (MVP)
-        $("#debug").text(JSON.stringify(data['json']));
+        //$("#debug").text(JSON.stringify(data['json']));
+        gContext = data;
+
+        jc = joinContext();
+
+        if(jc['updateNeeded']) {
+          // Post context
+        }
 
         // TODO: Load the elements
         loadContextChildren(ctx, key);
@@ -173,6 +184,36 @@
         console.log(data);
       }
     });
+  }
+
+  function joinContext() {
+    // gContext;
+    uKey = getUserKey();
+    uNam = getUserName();
+    found = false;
+    seq = null;
+    upd = false;
+
+    if(!"users" in gContext["json"] || gContext["json"]["users"].length == 0) {
+      gContext["json"]["users"] = new Array();
+      // First user added is always the creator ("admin")
+    }
+    for(i = 0; i < gContext["json"]["users"].length; i++) {
+      u = gContext["json"]["users"][i];
+      if(u["key"] == uKey) {
+        // Already joined, get the values
+        found = true;
+        seq = i;
+      }
+    }
+
+    if(!found) {
+      gContext["json"]["users"].push({'key': uKey, 'name': uNam, 'admin': admin});
+      seq = gContext["json"]["users"].length - 1;
+      upd = true;
+    }
+
+    return {'seq': seq, 'updateNeed': upd};
   }
 
   function createOrUpdateNode(id, json) {
@@ -282,6 +323,23 @@
       type: "POST",
       url: "/retro/node/" + id + "?s=" + getCtxKey(),
       data: JSON.stringify(postJson),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+      },
+      failure: function(errMsg) {
+          alert(errMsg);
+          console.log(errMsg);
+      }
+    });
+  }
+
+  function storeContext() {
+    $.ajax({
+      type: "POST",
+      url: "/retro/node/" + getPid() + "?s=" + getCtxKey(),
+      data: JSON.stringify(gContext),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(data) {
