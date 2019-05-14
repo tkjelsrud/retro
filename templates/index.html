@@ -253,10 +253,12 @@
         //console.log("change " + j + " " + changes[j]);
         if(changes[j] == "pos" && !isCool(id)) {
           //console.log(json['json']['pos']);
-          $('#node_' + id).animate({
-            'top': (json['json']['pos']).top,
-            'left': (json['json']['pos']).left
-          }, 200);
+          if("pos" in json["json"]) {
+            $('#node_' + id).animate({
+              'top': (json['json']['pos']).top,
+              'left': (json['json']['pos']).left
+            }, 200);
+          }
           //$('#node_' + id).offset(json['json']['pos']);
           console.log(id + " pos changed, FROM: " + JSON.stringify(gNodeData[id]['json']['pos']) + " TO:" + JSON.stringify(json['json']['pos']));
           gNodeData[id]['json']['pos'] = json['json']['pos'];
