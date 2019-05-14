@@ -8,11 +8,18 @@
   <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
 
   <style>
+  body {
+    font-family: Verdana;
+  }
     #board {
       position: absolute;
       width: 800px;
       height: 600px;
       background-color: #DDD;
+    }
+    #trash {
+      position: absolute;
+      background-color: red;
     }
     .node {
       position: absolute;
@@ -23,7 +30,6 @@
       background-color: #f2e088;
       padding: 4px;
       font-size: 12px;
-      font-family: Verdana;
       box-shadow: 2px 2px 2px 2px #ccc;
     }
   </style>
@@ -46,10 +52,9 @@
   <span class="label">Theme</span> <input id="ctheme" type="text" name="ctheme" />
 </div>
 <div id="context">
-  <div class="title">Context</div>
-  <span id="debug">...</span>
-  <div id="toolbar">This is toolbar div <a href="#" onclick="void(addBlankNode());">New note</a></div>
-  <div id="board">This is the board div</div>
+
+  <div id="toolbar"><span class="title">Context</span> <a href="#" onclick="void(addBlankNode());">New note</a></div>
+  <div id="board">&nbsp;</div>
   <div id="trash">This is the trash div</div>
 </div>
 
