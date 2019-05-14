@@ -294,7 +294,7 @@
     $.ajax({
       type: "POST",
       url: "/retro/node/0?s=" + getCtxKey(),
-      data: JSON.stringify({'pid': getPid(), 'type': 'note', 'json': {}}),
+      data: JSON.stringify({'pid': getPid(), 'type': 'note', 'json': {'color': getUserColor()}}),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(data) {
@@ -312,8 +312,9 @@
     nClass = ("class" in json["json"] ? json["json"]["class"] : "node");
     text = ("text" in json["json"] ? json["json"]["text"] : "Write here...");
     pos = ("pos" in json["json"] ? json["json"]["pos"] : {left: 100, top: 100});
+    style = ("color" in json["json"] ? "background-color: " + json["json"]["color"] : "");
 
-    $("#board").append("<div id=\"node_" + id + "\" class=\"" + nClass + "\" contenteditable=\"true\">" + text + "</div>");
+    $("#board").append("<div id=\"node_" + id + "\" style=\"" + style + "\" class=\"" + nClass + "\" contenteditable=\"true\">" + text + "</div>");
     $("#node_" + id).offset(pos);
 
     $("#node_" + id).draggable({
