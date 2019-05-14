@@ -71,6 +71,7 @@
 
   gNodeData = new Array();
   gContext = null;
+  gCooldown = new Array();
 
   $.urlParam = function (name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)')
@@ -241,7 +242,7 @@
       //console.log(changes);
       for(j = 0; j < changes.length; j++) {
         //console.log("change " + j + " " + changes[j]);
-        if(changes[j] == "pos") {
+        if(changes[j] == "pos" && gCooldown.indexOf(id) == -1) {
           //console.log(json['json']['pos']);
           $('#node_' + id).animate({
             'top': (json['json']['pos']).top,
@@ -311,7 +312,7 @@
       stop: function(event, ui) {
         cid = this.id.split("_")[1];
         pos = $('#node_' + cid).offset();
-
+        gCooldown.push(cid); // Stop it from beeing moved for two ticks
         gNodeData[cid]["json"]["pos"] = {left: parseInt(pos.left), top: parseInt(pos.top)};
         storeNode(cid);
       }
@@ -372,6 +373,8 @@
 
   function tick() {
     t = tickTime[tickSel];
+
+    gCooldown.pop();
 
     if(t == -1) {
       // Stop the looping
