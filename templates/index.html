@@ -298,7 +298,7 @@
     text = ("text" in json["json"] ? json["json"]["text"] : "Write here...");
     pos = ("pos" in json["json"] ? json["json"]["pos"] : {left: 100, top: 100});
 
-    $("#board").append("<div id=\"node_" + id + "\" class=\"" + nClass + "\" title=\"" + JSON.stringify(json) + "\" contenteditable=\"true\">" + text + "</div>");
+    $("#board").append("<div id=\"node_" + id + "\" class=\"" + nClass + "\" contenteditable=\"true\">" + text + "</div>");
     $("#node_" + id).offset(pos);
 
     $("#node_" + id).draggable({
@@ -365,9 +365,15 @@
   }
 
   function tick() {
-    loadContextChildren($.urlParam('c'), $.urlParam('k'));
-    //console.log("Tick");
-    setTimeout(function() {tick();}, 1000);
+    t = tickTime[tickSel];
+
+    if(t == -1) {
+      // Stop the looping
+    }
+    else {
+      loadContextChildren($.urlParam('c'), $.urlParam('k'));
+      setTimeout(function() {tick();}, t);
+    }
   }
 
 /*
