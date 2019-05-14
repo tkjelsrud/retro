@@ -55,6 +55,8 @@
   //var uniqueId = Math.random().toString(36).substring(2)
   //             + (new Date()).getTime().toString(36).substring(3, 11);
   //$('#uuid').val(uniqueId);
+  colors = new Array("#f4e542", "#f4b241", "#d0f441", "#bafcff", "#e7d7f4", "#edbdce", "#cec0c0", "#fc906c", "#c4a338", "#91b527", "#4bdb3b", "#57e09b", "#2fa7b5", "#2f66b5", "#662fb5", "#ce34d1", "#d1336a");
+
   tickTime = {'sleep': -1, 'low': 10000, 'med': 1000, 'high': 250};
   tickSel = 'high';
 
@@ -88,6 +90,7 @@
     if(name != "" && key != "") {
       localStorage.setItem("user.name", name);
       localStorage.setItem("user.key", key);
+      localStorage.setItem("user.color", "#999999");
       setView("setContext");
 
       return true;
@@ -111,6 +114,10 @@
   }
   function getUserKey() {
     return localStorage.getItem("user.key");
+  }
+
+  function getUserColor() {
+    return localStorage.getItem("user.color");
   }
 
   function getPid() {
@@ -208,8 +215,9 @@
     }
 
     if(!found) {
-      gContext["json"]["users"].push({'key': uKey, 'name': uNam});
-      seq = gContext["json"]["users"].length - 1;
+      seq = gContext["json"]["users"].length;
+      gContext["json"]["users"].push({'key': uKey, 'name': uNam, 'color': colors[seq]});
+      localStorage.setItem("user.color", colors[seq]);
       upd = true;
     }
 
