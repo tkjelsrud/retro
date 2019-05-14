@@ -324,6 +324,9 @@
         //createOrUpdateNode
       }
     });
+    $("#node_" + id).on('blur', function(event, ui) {
+      console.log("Blur");
+    });
   }
 
   function storeNode(id) {
