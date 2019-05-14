@@ -8,20 +8,23 @@
   <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
 
   <style>
-  #board {
-    position: absolute;
-    width: 800px;
-    height: 600px;
-    background-color: #DDD;
-  }
-  .node {
-    position: absolute;
-    margin: 5px;
-    width: 100px;
-    height: 30px;
-    border: 1px solid grey;
-    background-color: #f2e088;
-  }
+    #board {
+      position: absolute;
+      width: 800px;
+      height: 600px;
+      background-color: #DDD;
+    }
+    .node {
+      position: absolute;
+      margin: 5px;
+      width: 100px;
+      height: 30px;
+      border: 1px solid grey;
+      background-color: #f2e088;
+      padding: 2px;
+      font-size: 12px;
+      font-family: Verdana;
+    }
   </style>
 </head>
 
@@ -155,10 +158,10 @@
         jc = joinContext();
 
         if(jc['updateNeeded']) {
-          // Post context
+          // Post context with changes
+          storeContext();
         }
 
-        // TODO: Load the elements
         loadContextChildren(ctx, key);
 
         setView('context');
@@ -282,7 +285,7 @@
         console.log(data);
       },
       failure: function(errMsg) {
-          alert(errMsg);
+          console.log("Error in adding note");
           console.log(errMsg);
       }
     });
@@ -337,7 +340,7 @@
         console.log(data);
       },
       failure: function(errMsg) {
-          alert(errMsg);
+          console.log("Error in storeNode");
           console.log(errMsg);
       }
     });
@@ -354,7 +357,7 @@
         console.log(data);
       },
       failure: function(errMsg) {
-          alert(errMsg);
+          console.log("Error in storing context");
           console.log(errMsg);
       }
     });
