@@ -309,23 +309,21 @@
     $("#node_" + id).draggable({
       //grid: [10, 10],
       stop: function(event, ui) {
-        //console.log("Dropped:" + ui.helper.position().left + " " + ui.helper.position().top);
         cid = this.id.split("_")[1];
-
-        pos = $('#node_' + cid).offset(); //ui.helper.position();
+        pos = $('#node_' + cid).offset();
 
         gNodeData[cid]["json"]["pos"] = {left: parseInt(pos.left), top: parseInt(pos.top)};
         storeNode(cid);
-
-        // TODO: find the node, translate to real ID, store change, cleanup
-        //gNodeData[id
-        //storeNode
-
-        //createOrUpdateNode
       }
     });
     $("#node_" + id).on('blur', function(event, ui) {
-      console.log("Blur");
+      cid = this.id.split("_")[1];
+      nText = $("#node_" + cid).text().trim();
+      // Check if text has changed
+      if(gNodeData[cid]["json"]['text'].trim().localeCompare(nText) != 0) {
+        gNodeData[cid]["json"]['text'] = nText;
+        storeNode(cid);
+      }
     });
   }
 
