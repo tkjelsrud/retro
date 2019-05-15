@@ -68,7 +68,7 @@ def node(n_id):
                 n = session.query(DbObject).filter(DbObject.id==n_id, DbObject.skey==skey).first()
                 #n = DbObject.query.filter_by(id=n_id, skey=skey).one()
 
-                if n:
+                if n is not None:
                     # Update, only support changing the json for now?
                     n.json = jso
                     session.commit()
@@ -97,7 +97,7 @@ def node(n_id):
             if requireKey:
                 if 's' not in request.args or request.args['s'] != n.skey:
                     return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)
-            if n:
+            if n is not None:
                 return make_response(jsonify({'result': 200, 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
 
             return make_response(jsonify({'result': 404, 'id': n_id}), 200)
