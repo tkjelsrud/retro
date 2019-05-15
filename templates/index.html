@@ -71,7 +71,7 @@
 
   gNodeData = new Array();
   gContext = null;
-  gCooldown = new Array();
+  //gCooldown = new Array();
 
   $.urlParam = function (name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)')
@@ -145,14 +145,14 @@
     return (key != false && ctx != false);
   }
 
-  function cool(id, cnt) {
-    for(i = 0; i < cnt; i++)
-      gCooldown.push(id);
-  }
+  //function cool(id, cnt) {
+  //  for(i = 0; i < cnt; i++)
+  //    gCooldown.push(id);
+  //}
 
-  function isCool(id) {
-    return (gCooldown.indexOf(id) == -1);
-  }
+  //function isCool(id) {
+  //  return (gCooldown.indexOf(id) == -1);
+  //}
 
 
   function loadContext() {
@@ -260,7 +260,7 @@
       //console.log(changes);
       for(j = 0; j < changes.length; j++) {
         //console.log("change " + j + " " + changes[j]);
-        if(changes[j] == "pos" && !isCool(id)) {
+        if(changes[j] == "pos") { //} && !isCool(id)) {
           //console.log(json['json']['pos']);
           if("pos" in json["json"]) {
             $('#node_' + id).animate({
@@ -333,7 +333,7 @@
       stop: function(event, ui) {
         cid = this.id.split("_")[1];
         pos = $('#node_' + cid).offset();
-        cool(cid, 2); // Stop it from beeing moved for two ticks
+        //cool(cid, 2); // Stop it from beeing moved for two ticks
         gNodeData[cid]["json"]["pos"] = {left: parseInt(pos.left), top: parseInt(pos.top)};
         storeNode(cid);
       }
@@ -399,7 +399,7 @@
   function tick() {
     t = tickTime[tickSel];
 
-    gCooldown.pop(); // TODO: fix this bad implementation of cooling down
+    //gCooldown.pop(); // TODO: fix this bad implementation of cooling down
 
     if(t == -1) {
       // Stop the looping
