@@ -384,9 +384,10 @@
       dataType: "json",
       success: function(data) {
         // If ID is not our PID, redirect
-        if(getPid() != data["id"])
-          alert("Pid changed " + getPid() + " != " + data["id"]);
-        console.log(data);
+        if(getPid() != data["id"]) {
+          window.location.href = "/retro/node" + data["id"] + "?s=" + data["skey"];
+        }
+        //console.log(data);
       },
       failure: function(errMsg) {
           console.log("Error in storing context");
