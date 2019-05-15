@@ -386,7 +386,7 @@
   function tick() {
     t = tickTime[tickSel];
 
-    gCooldown.pop();
+    gCooldown.pop(); // TODO: fix this bad implementation of cooling down
 
     if(t == -1) {
       // Stop the looping

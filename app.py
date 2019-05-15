@@ -65,7 +65,7 @@ def node(n_id):
 
             if n_id > 0:
                 # Probable update
-                n = session.query(DbObject).filter(DbObject.id==n_id, DbObject.skey==skey).one()
+                n = session.query(DbObject).filter(DbObject.id==n_id, DbObject.skey==skey).first()
                 #n = DbObject.query.filter_by(id=n_id, skey=skey).one()
 
                 if n:
@@ -91,7 +91,7 @@ def node(n_id):
 
     if request.method == "GET":
         try:
-            n = session.query(DbObject).filter(DbObject.id==n_id).one()
+            n = session.query(DbObject).filter(DbObject.id==n_id).first()
             #n = DbObject.query.filter_by(id=n_id).one()
 
             if requireKey:
