@@ -27,10 +27,12 @@ appRoot = "/retro"
 requireKey = True
 
 # Always returning OK 200 to avoid default sever error pages
-
 def recodeJson(jStr):
     return json.loads(jStr)
     #return str(json.loads(jStr))[1:-1]
+
+def toTimestamp(ts):
+    return time.mktime(ts.timetuple()) * 1000 + then.microsecond/1000
 
 @app.route(appRoot + "/node/<int:n_id>", methods=["GET", "POST", "PUT", "DELETE"])
 def node(n_id):
@@ -82,7 +84,7 @@ def node(n_id):
                 session.add(n)
                 session.commit()
 
-            return make_response(jsonify({'result': 200, 'update': str(upd), 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
+            return make_response(jsonify({'result': 200, 'update': str(upd), 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': toTimestamp(n.ts)}), 200)
         except Exception as error:
             #db.session.rollback()
             return make_response(jsonify({'result': 500, 'message': 'Error on create or update. ' + str(error)}), 200)
@@ -98,7 +100,7 @@ def node(n_id):
                 if 's' not in request.args or request.args['s'] != n.skey:
                     return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)
             if n is not None:
-                return make_response(jsonify({'result': 200, 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': n.ts}), 200)
+                return make_response(jsonify({'result': 200, 'id': n.id, 'json': recodeJson(n.json), 'skey':n.skey, 'ts': toTimestamp(n.ts)}), 200)
 
             return make_response(jsonify({'result': 404, 'id': n_id}), 200)
 
@@ -139,7 +141,7 @@ def children(n_id):
             if cList:
                 dList = []
                 for b in cList:
-                    dList.append({'id': b.id, 'pid': b.pid, 'type': b.type, 'json': recodeJson(b.json), 'skey': b.skey, 'ts': b.ts})
+                    dList.append({'id': b.id, 'pid': b.pid, 'type': b.type, 'json': recodeJson(b.json), 'skey': b.skey, 'ts': toTimestamp(b.ts)})
 
                 return make_response(jsonify({'result': 200, 'id': n_id, 'json': dList}), 200)
 
