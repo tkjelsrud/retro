@@ -384,8 +384,8 @@
       dataType: "json",
       success: function(data) {
         // If ID is not our PID, redirect
-        if(getPid() != data["json"]["id"])
-          alert("Pid changed " + getPid() + " != " + data["json"]["id"]);
+        if(getPid() != data["id"])
+          alert("Pid changed " + getPid() + " != " + data["id"]);
         console.log(data);
       },
       failure: function(errMsg) {
