@@ -175,13 +175,22 @@
 
         if(jc['updateNeeded']) {
           // Post context with changes
-          storeContext();
+          storeContext(getPid(), getCtxKey());
         }
 
         loadContextChildren(ctx, key);
 
         setView('context');
         tick();
+      }
+      else if(res == 404) {
+        // The context is not known, so we create one?
+        // Default Context
+        gContext = {"json": {}};
+        joinContext();
+        storeContext(0, getCtxKey());
+
+        // We now need to redirect so this is the pid
       }
       else {
         console.log('Error in loadContext');
@@ -366,14 +375,17 @@
     });
   }
 
-  function storeContext() {
+  function storeContext(id, key) {
     $.ajax({
       type: "POST",
-      url: "/retro/node/" + getPid() + "?s=" + getCtxKey(),
+      url: "/retro/node/" + id + "?s=" + key,
       data: JSON.stringify(gContext),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(data) {
+        // If ID is not our PID, redirect
+        if(getPid() != data["json"]["id"])
+          alert("Pid changed " + getPid() + " != " + data["json"]["id"]);
         console.log(data);
       },
       failure: function(errMsg) {
