@@ -385,7 +385,7 @@
       success: function(data) {
         // If ID is not our PID, redirect
         if(getPid() != data["id"]) {
-          window.location.href = "/retro/node" + data["id"] + "?s=" + data["skey"];
+          window.location.href = "/retro/?c=" + data["id"] + "&k=" + data["skey"];
         }
         //console.log(data);
       },
