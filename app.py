@@ -94,7 +94,7 @@ def node(n_id):
             n = session.query(DbObject).filter(DbObject.id==n_id).first()
             #n = DbObject.query.filter_by(id=n_id).one()
 
-            if requireKey:
+            if requireKey and n is not None:
                 if 's' not in request.args or request.args['s'] != n.skey:
                     return make_response(jsonify({'result': 403, 'message': 'Key did not match'}), 200)
             if n is not None:
