@@ -144,8 +144,8 @@
     return (key != false && ctx != false);
   }
 
-  function isOldChange(ts) {
-    return (ts < new Date().getTime());
+  function getTimestamp() {
+    return new Date().getTime();
   }
 
   function loadContext() {
@@ -247,13 +247,12 @@
 
   function createOrUpdateNode(id, json) {
     if(id in gNodeData) {
-      // UPDATE, TODO: check what has changed, poor implementation now
       changes = nodeChangeType(id, json);
       //console.log("changes");
       //console.log(changes);
       for(j = 0; j < changes.length; j++) {
         //console.log("change " + j + " " + changes[j]);
-        if(changes[j] == "pos" && !isOldChange(gNodeData[id].ts)) { //} && !isCool(id)) {
+        if(changes[j] == "pos") { //} && !isCool(id)) {
           //console.log(json['json']['pos']);
           if("pos" in json["json"]) {
             $('#node_' + id).animate({
@@ -282,6 +281,9 @@
   function nodeChangeType(id, newJson) {
     changes = new Array();
     oldJson = gNodeData[id];
+
+    if("ts" in oldJson && oldJson["ts"] > newJson["ts"])
+      return changes;
     //if(oldJson['type'] != newJson['type'])
     //  changes.push("type");
     if(parseInt(oldJson["json"]['pos'].left) != parseInt(newJson["json"]['pos'].left))
@@ -327,6 +329,7 @@
         cid = this.id.split("_")[1];
         pos = $('#node_' + cid).offset();
         gNodeData[cid]["json"]["pos"] = {left: parseInt(pos.left), top: parseInt(pos.top)};
+        gNodeData[cid]["ts"] = getTimestamp();
         storeNode(cid);
       }
     });
@@ -336,6 +339,7 @@
       // Check if text has changed
       if(gNodeData[cid]["json"]['text'].trim().localeCompare(nText) != 0) {
         gNodeData[cid]["json"]['text'] = nText;
+        gNodeData[cid]["ts"] = getTimestamp();
         storeNode(cid);
       }
     });
