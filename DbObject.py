@@ -16,5 +16,5 @@ class DbObject(db.Model, JsonModel):
     pid = db.Column(db.Integer)
     type = db.Column(db.String(16))
     json = db.Column(db.String(2048))
-    ts = db.Column(db.Decimal())
+    ts = db.Column(db.Float())
     skey = db.Column(db.String(16))
