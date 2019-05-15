@@ -32,6 +32,9 @@ def recodeJson(jStr):
     #return str(json.loads(jStr))[1:-1]
 
 def toTimestamp(ts):
+    if ts is None:
+        return 0
+    
     return time.mktime(ts.timetuple()) * 1000 + then.microsecond/1000
 
 @app.route(appRoot + "/node/<int:n_id>", methods=["GET", "POST", "PUT", "DELETE"])
